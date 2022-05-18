@@ -1,13 +1,11 @@
-export type ThemeType = typeof theme
-
 export const theme = {
   colors: {
     background: '#6e5c62',
     text: '#FAFAFF',
     letter: {
       correctPlace: '#46A394',
-      incorrectPlace: '#312A2C',
-      nonExisting: '#D3AD69',
+      incorrectPlace: '#D3AD69',
+      nonExisting: '#312A2C',
     },
     keyboard: {
       available: '#4C4347',
@@ -15,4 +13,6 @@ export const theme = {
     },
   },
   fontFamily: 'Mitr',
-}
+};
+
+export type ThemeType = typeof theme;

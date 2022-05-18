@@ -1,5 +1,5 @@
-import { createGlobalStyle } from 'styled-components'
-import { ThemeType } from './theme'
+import { createGlobalStyle } from 'styled-components';
+import { ThemeType } from './theme';
 
 const GlobalStyle = createGlobalStyle<{ theme: ThemeType }>`
   * {
@@ -12,6 +12,23 @@ const GlobalStyle = createGlobalStyle<{ theme: ThemeType }>`
     background-color: ${({ theme }) => theme.colors.background};
     color: ${({ theme }) => theme.colors.text};
   }
-`
 
-export default GlobalStyle
+  @keyframes popup {
+    0% {
+      opacity: 0;
+      transform: scale(0);
+    }
+    25% {
+      opacity: 1;
+    }
+    75% {
+      transform: scale(1.15);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+`;
+
+export default GlobalStyle;
