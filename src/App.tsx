@@ -1,7 +1,7 @@
-import React from 'react';
-import { ThemeProvider } from 'styled-components';
-import GlobalStyle from './styles/globalStyle';
-import { theme } from './styles/theme';
+import React from 'react'
+import { ThemeProvider } from 'styled-components'
+import GlobalStyle from './styles/globalStyle'
+import { theme } from './styles/theme'
 
 function App() {
   return (
@@ -10,7 +10,7 @@ function App() {
 
       <h1>Hello World</h1>
     </ThemeProvider>
-  );
+  )
 }
 
-export default App;
+export default App

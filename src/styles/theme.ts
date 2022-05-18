@@ -1,4 +1,4 @@
-export type ThemeType = typeof theme;
+export type ThemeType = typeof theme
 
 export const theme = {
   colors: {
@@ -15,4 +15,4 @@ export const theme = {
     },
   },
   fontFamily: 'Mitr',
-};
+}

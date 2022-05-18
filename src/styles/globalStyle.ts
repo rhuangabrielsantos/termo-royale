@@ -1,5 +1,5 @@
-import { createGlobalStyle } from 'styled-components';
-import { ThemeType } from './theme';
+import { createGlobalStyle } from 'styled-components'
+import { ThemeType } from './theme'
 
 const GlobalStyle = createGlobalStyle<{ theme: ThemeType }>`
   * {
@@ -12,6 +12,6 @@ const GlobalStyle = createGlobalStyle<{ theme: ThemeType }>`
     background-color: ${({ theme }) => theme.colors.background};
     color: ${({ theme }) => theme.colors.text};
   }
-`;
+`
 
-export default GlobalStyle;
+export default GlobalStyle
