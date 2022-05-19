@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const Box = styled.div<{
   flexDirection: 'column' | 'row';
   gap: string;
+  animationError?: boolean;
 }>`
   display: flex;
   flex-direction: ${(props) => props.flexDirection};
@@ -10,4 +11,10 @@ export const Box = styled.div<{
   justify-content: center;
 
   gap: ${(props) => props.gap};
+  outline: none;
+
+  animation: ${(props) =>
+    props.animationError
+      ? '0.75s ease-in-out 0s 1 normal none running rownope'
+      : 'none'};
 `;

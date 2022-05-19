@@ -1,38 +1,39 @@
 import styled from 'styled-components';
-import { ColorOptions, Letter } from './Letter';
+import { ILetter } from '../interfaces';
+import { Letter } from './Letter';
+import { WrittingWord } from './WrittingWord';
 
-interface Props {
-  word: string;
+interface WordProps {
+  letters?: ILetter[];
+  isWritting?: boolean;
+  checkWord: (word: ILetter[]) => void;
+
+  error: boolean;
+  setError: (error: boolean) => void;
 }
 
-export function Word({ word }: Props) {
-  function renderLetters() {
-    return word.split('').map((letter, index) => {
-      const color = randomColor();
-
-      return (
-        <Letter
-          key={index}
-          color={color}
-          animate={color !== 'nonExisting'}
-        >
-          {letter}
+export function Word({
+  letters,
+  isWritting,
+  checkWord,
+  error,
+  setError,
+}: WordProps) {
+  return isWritting ? (
+    <WrittingWord
+      checkWord={checkWord}
+      error={error}
+      setError={setError}
+    />
+  ) : (
+    <Container>
+      {letters?.map((letter, index) => (
+        <Letter key={index} color={letter.color}>
+          {letter.text}
         </Letter>
-      );
-    });
-  }
-
-  function randomColor(): ColorOptions {
-    const colors: ColorOptions[] = [
-      'correctPlace',
-      'incorrectPlace',
-      'nonExisting',
-    ];
-
-    return colors[Math.floor(Math.random() * colors.length)];
-  }
-
-  return <Container>{renderLetters()}</Container>;
+      ))}
+    </Container>
+  );
 }
 
 const Container = styled.div`

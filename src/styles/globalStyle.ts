@@ -29,6 +29,19 @@ const GlobalStyle = createGlobalStyle<{ theme: ThemeType }>`
       transform: scale(1);
     }
   }
+
+  @keyframes rownope {
+    10%  { transform: translateX(-14px); }
+    20%  { transform: translateX(14px); }
+    30%  { transform: translateX(-8px); }
+    40%  { transform: translateX(8px); }
+    50%  { transform: translateX(-4px); }
+    60%  { transform: translateX(4px); }
+    70%  { transform: translateX(-2px); }
+    80%  { transform: translateX(2px); }
+    90%  { transform: translateX(-1px); }
+    100% { transform: translateX(1px); }
+  }
 `;
 
 export default GlobalStyle;

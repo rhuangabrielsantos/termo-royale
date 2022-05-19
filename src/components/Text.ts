@@ -16,4 +16,6 @@ export const Text = styled.h1<TextProps>`
   font-family: ${(props) => props.theme.fontFamily};
 
   margin: ${(props) => props.margin || '0'};
+
+  text-align: center;
 `;
