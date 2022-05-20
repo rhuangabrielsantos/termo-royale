@@ -1,3 +1,4 @@
+import { valibleWords } from '../data/valibleWords';
 import { words } from '../data/words';
 import { ILetter } from '../interfaces';
 
@@ -5,46 +6,46 @@ export class WordsService {
   public static makeInitialWordsState(): ILetter[][] {
     return [
       [
-        { text: '', color: 'transparent' },
-        { text: '', color: 'transparent' },
-        { text: '', color: 'transparent' },
-        { text: '', color: 'transparent' },
-        { text: '', color: 'transparent' },
+        { text: '', color: 'transparent', flip: false },
+        { text: '', color: 'transparent', flip: false },
+        { text: '', color: 'transparent', flip: false },
+        { text: '', color: 'transparent', flip: false },
+        { text: '', color: 'transparent', flip: false },
       ],
       [
-        { text: '', color: 'unvailable' },
-        { text: '', color: 'unvailable' },
-        { text: '', color: 'unvailable' },
-        { text: '', color: 'unvailable' },
-        { text: '', color: 'unvailable' },
+        { text: '', color: 'unvailable', flip: false },
+        { text: '', color: 'unvailable', flip: false },
+        { text: '', color: 'unvailable', flip: false },
+        { text: '', color: 'unvailable', flip: false },
+        { text: '', color: 'unvailable', flip: false },
       ],
       [
-        { text: '', color: 'unvailable' },
-        { text: '', color: 'unvailable' },
-        { text: '', color: 'unvailable' },
-        { text: '', color: 'unvailable' },
-        { text: '', color: 'unvailable' },
+        { text: '', color: 'unvailable', flip: false },
+        { text: '', color: 'unvailable', flip: false },
+        { text: '', color: 'unvailable', flip: false },
+        { text: '', color: 'unvailable', flip: false },
+        { text: '', color: 'unvailable', flip: false },
       ],
       [
-        { text: '', color: 'unvailable' },
-        { text: '', color: 'unvailable' },
-        { text: '', color: 'unvailable' },
-        { text: '', color: 'unvailable' },
-        { text: '', color: 'unvailable' },
+        { text: '', color: 'unvailable', flip: false },
+        { text: '', color: 'unvailable', flip: false },
+        { text: '', color: 'unvailable', flip: false },
+        { text: '', color: 'unvailable', flip: false },
+        { text: '', color: 'unvailable', flip: false },
       ],
       [
-        { text: '', color: 'unvailable' },
-        { text: '', color: 'unvailable' },
-        { text: '', color: 'unvailable' },
-        { text: '', color: 'unvailable' },
-        { text: '', color: 'unvailable' },
+        { text: '', color: 'unvailable', flip: false },
+        { text: '', color: 'unvailable', flip: false },
+        { text: '', color: 'unvailable', flip: false },
+        { text: '', color: 'unvailable', flip: false },
+        { text: '', color: 'unvailable', flip: false },
       ],
       [
-        { text: '', color: 'unvailable' },
-        { text: '', color: 'unvailable' },
-        { text: '', color: 'unvailable' },
-        { text: '', color: 'unvailable' },
-        { text: '', color: 'unvailable' },
+        { text: '', color: 'unvailable', flip: false },
+        { text: '', color: 'unvailable', flip: false },
+        { text: '', color: 'unvailable', flip: false },
+        { text: '', color: 'unvailable', flip: false },
+        { text: '', color: 'unvailable', flip: false },
       ],
     ];
   }
@@ -59,6 +60,12 @@ export class WordsService {
   }
 
   public static wordIsReal(word: string): boolean {
+    const valibleWordsWithoutAccents = Object.keys(valibleWords);
+
+    if (valibleWordsWithoutAccents.includes(word)) {
+      return true;
+    }
+
     return words.includes(word);
   }
 }

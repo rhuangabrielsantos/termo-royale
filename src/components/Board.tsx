@@ -25,7 +25,7 @@ export function Board({ correctWord, words, setWords }: BoardProps) {
     'essa palavra não é aceita'
   );
 
-  const checkWord = (word: ILetter[]) => {
+  const checkWord = async (word: ILetter[]) => {
     const correctWordInArray = correctWord.toUpperCase().split('');
     const wordInArray = word.map((letter) => letter.text);
     const index = wordControl.indexOf(true);
@@ -33,6 +33,7 @@ export function Board({ correctWord, words, setWords }: BoardProps) {
     for (let i = 0; i < correctWordInArray.length; i++) {
       if (correctWordInArray[i] === wordInArray[i]) {
         word[i].color = 'correctPlace';
+        word[i].flip = true;
         correctWordInArray[i] = '_';
         wordInArray[i] = '_';
       }
@@ -49,17 +50,20 @@ export function Board({ correctWord, words, setWords }: BoardProps) {
         correctWordInArray[indexOf] = '_';
         wordInArray[i] = '_';
         word[i].color = 'incorrectPlace';
+        word[i].flip = true;
 
         continue;
       }
 
       word[i].color = 'nonExisting';
+      word[i].flip = true;
     }
 
     const newWords = [...words];
     newWords[index] = word;
 
     setWords(newWords);
+    await flipLetters(index);
 
     const hasGameEnded = correctWordInArray.every(
       (letter) => letter === '_'
@@ -70,11 +74,11 @@ export function Board({ correctWord, words, setWords }: BoardProps) {
     }
 
     newWords[index + 1] = [
-      { text: '', color: 'transparent' },
-      { text: '', color: 'transparent' },
-      { text: '', color: 'transparent' },
-      { text: '', color: 'transparent' },
-      { text: '', color: 'transparent' },
+      { text: '', color: 'transparent', flip: false },
+      { text: '', color: 'transparent', flip: false },
+      { text: '', color: 'transparent', flip: false },
+      { text: '', color: 'transparent', flip: false },
+      { text: '', color: 'transparent', flip: false },
     ];
 
     setWords(newWords);
@@ -91,6 +95,44 @@ export function Board({ correctWord, words, setWords }: BoardProps) {
     }
   };
 
+  const [animateLetterId, setAnimateLetterId] = useState<number>(0);
+
+  const flipLetters = async (index: number) => {
+    const queryId = getQueryId(index);
+    const letters = document.querySelectorAll(`.${queryId}`);
+
+    setTimeout(() => {
+      if (!letters[animateLetterId]) {
+        setAnimateLetterId(0);
+        return;
+      }
+
+      letters[animateLetterId].classList.add('flip');
+      letters[animateLetterId].classList.remove(queryId);
+      setAnimateLetterId((animateLetterId) => animateLetterId + 1);
+      flipLetters(index);
+    }, 300);
+
+    await timeout(2200);
+  };
+
+  const getQueryId = (index: number) => {
+    const queryByIndex = [
+      'first',
+      'second',
+      'third',
+      'fourth',
+      'fifth',
+      'sixth',
+    ];
+
+    return queryByIndex[index];
+  };
+
+  const timeout = (ms: number) => {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  };
+
   return (
     <Container gap="0.125em">
       <AlertMessage isVisible={error} message={errorMessage} />
@@ -101,6 +143,7 @@ export function Board({ correctWord, words, setWords }: BoardProps) {
         checkWord={checkWord}
         error={error}
         setError={setError}
+        name="first"
       />
       <Word
         isWritting={wordControl[1]}
@@ -108,6 +151,7 @@ export function Board({ correctWord, words, setWords }: BoardProps) {
         letters={words[1] ?? []}
         error={error}
         setError={setError}
+        name="second"
       />
       <Word
         isWritting={wordControl[2]}
@@ -115,6 +159,7 @@ export function Board({ correctWord, words, setWords }: BoardProps) {
         letters={words[2] ?? []}
         error={error}
         setError={setError}
+        name="third"
       />
       <Word
         isWritting={wordControl[3]}
@@ -122,6 +167,7 @@ export function Board({ correctWord, words, setWords }: BoardProps) {
         letters={words[3] ?? []}
         error={error}
         setError={setError}
+        name="fourth"
       />
       <Word
         isWritting={wordControl[4]}
@@ -129,6 +175,7 @@ export function Board({ correctWord, words, setWords }: BoardProps) {
         letters={words[4] ?? []}
         error={error}
         setError={setError}
+        name="fifth"
       />
       <Word
         isWritting={wordControl[5]}
@@ -136,6 +183,7 @@ export function Board({ correctWord, words, setWords }: BoardProps) {
         letters={words[5] ?? []}
         error={error}
         setError={setError}
+        name="sixth"
       />
     </Container>
   );

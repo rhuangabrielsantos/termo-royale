@@ -4,6 +4,7 @@ interface LetterProps {
   color?: ColorOptions;
   animate?: boolean;
   isWritting?: boolean;
+  fliped?: boolean;
 }
 
 export type ColorOptions =
@@ -19,7 +20,11 @@ export const Letter = styled.div<LetterProps>`
   font-size: 2rem;
   color: ${(props) => props.theme.colors.text};
   background-color: ${(props) =>
-    props.theme.colors.letter[props.color || 'nonExisting']};
+    props.color === 'unvailable'
+      ? props.theme.colors.letter.unvailable
+      : props.fliped
+      ? props.theme.colors.letter[props.color || 'nonExisting']
+      : 'transparent'};
 
   text-transform: uppercase;
   outline: 0;
@@ -38,9 +43,9 @@ export const Letter = styled.div<LetterProps>`
       : 'none'};
 
   border: ${(props) =>
-    props.color === 'transparent'
-      ? `0.125em solid ${props.theme.colors.keyboard.available}`
-      : 'none'};
+    props.color === 'unvailable' || props.fliped
+      ? 'none'
+      : `0.125em solid ${props.theme.colors.keyboard.available}`};
 
   cursor: ${(props) =>
     props.color === 'transparent' ? 'pointer' : 'default'};
@@ -49,7 +54,11 @@ export const Letter = styled.div<LetterProps>`
     props.isWritting &&
     `border-bottom: 0.25em solid ${props.theme.colors.keyboard.available}`};
 
-  .flip {
-    animation: 0.45s linear flip 0s forwards;
+  --color: var(--${(props) => props.color});
+
+  &.flip {
+    animation: 0.45s linear flip 0s forwards !important;
+
+    border: none;
   }
 `;

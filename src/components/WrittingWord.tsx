@@ -8,19 +8,22 @@ interface WrittingWordProps {
   checkWord: (word: ILetter[]) => void;
   error: boolean;
   setError: (error: boolean) => void;
+
+  name?: string;
 }
 
 export function WrittingWord({
   checkWord,
   error,
   setError,
+  name,
 }: WrittingWordProps) {
   const [letters, setLetters] = useState<ILetter[]>([
-    { text: '', color: 'transparent' },
-    { text: '', color: 'transparent' },
-    { text: '', color: 'transparent' },
-    { text: '', color: 'transparent' },
-    { text: '', color: 'transparent' },
+    { text: '', color: 'transparent', flip: false },
+    { text: '', color: 'transparent', flip: false },
+    { text: '', color: 'transparent', flip: false },
+    { text: '', color: 'transparent', flip: false },
+    { text: '', color: 'transparent', flip: false },
   ]);
   const [isWritting, setIsWritting] = useState<boolean[]>([
     true,
@@ -79,7 +82,7 @@ export function WrittingWord({
       setError(false);
       const isWrittingId = isWritting.indexOf(true);
 
-      if (isWrittingId === -1) {
+      if (isWrittingId === -1 && letters[4].text !== '') {
         updateFocus(4);
         const newLetters = [...letters];
         newLetters[4] = {
@@ -88,6 +91,10 @@ export function WrittingWord({
         };
 
         setLetters(newLetters);
+        return;
+      }
+
+      if (isWrittingId === -1) {
         return;
       }
 
@@ -170,6 +177,7 @@ export function WrittingWord({
         isWritting={isWritting[0]}
         onClick={() => updateFocus(0)}
         animate={letters[0].text !== ''}
+        className={name}
       >
         {letters[0]?.text}
       </Letter>
@@ -178,6 +186,7 @@ export function WrittingWord({
         isWritting={isWritting[1]}
         onClick={() => updateFocus(1)}
         animate={letters[1].text !== ''}
+        className={name}
       >
         {letters[1]?.text}
       </Letter>
@@ -186,6 +195,7 @@ export function WrittingWord({
         isWritting={isWritting[2]}
         onClick={() => updateFocus(2)}
         animate={letters[2].text !== ''}
+        className={name}
       >
         {letters[2]?.text}
       </Letter>
@@ -194,6 +204,7 @@ export function WrittingWord({
         isWritting={isWritting[3]}
         onClick={() => updateFocus(3)}
         animate={letters[3].text !== ''}
+        className={name}
       >
         {letters[3]?.text}
       </Letter>
@@ -202,6 +213,7 @@ export function WrittingWord({
         isWritting={isWritting[4]}
         onClick={() => updateFocus(4)}
         animate={letters[4].text !== ''}
+        className={name}
       >
         {letters[4]?.text}
       </Letter>

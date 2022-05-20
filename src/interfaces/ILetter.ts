@@ -8,4 +8,5 @@ export type ColorOptions =
 export interface ILetter {
   text: string;
   color: ColorOptions;
+  flip: boolean;
 }

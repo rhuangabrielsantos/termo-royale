@@ -10,6 +10,8 @@ interface WordProps {
 
   error: boolean;
   setError: (error: boolean) => void;
+
+  name?: string;
 }
 
 export function Word({
@@ -18,17 +20,24 @@ export function Word({
   checkWord,
   error,
   setError,
+  name,
 }: WordProps) {
   return isWritting ? (
     <WrittingWord
       checkWord={checkWord}
       error={error}
       setError={setError}
+      name={name}
     />
   ) : (
     <Container>
       {letters?.map((letter, index) => (
-        <Letter key={index} color={letter.color}>
+        <Letter
+          key={index}
+          color={letter.color}
+          className={name}
+          fliped={letter.flip}
+        >
           {letter.text}
         </Letter>
       ))}
