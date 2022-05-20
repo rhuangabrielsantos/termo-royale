@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ILetter } from '../interfaces';
+import { WordsService } from '../service/WordsService';
 import { AlertMessage } from './AlertMessage';
 import { Container } from './Container';
 import { Word } from './Word';
@@ -59,8 +60,10 @@ export function Board({ correctWord, words, setWords }: BoardProps) {
       word[i].flip = true;
     }
 
+    const wordsWithAccent = WordsService.wordWithAccent(word);
+
     const newWords = [...words];
-    newWords[index] = word;
+    newWords[index] = wordsWithAccent;
 
     setWords(newWords);
     await flipLetters(index);

@@ -68,4 +68,39 @@ export class WordsService {
 
     return words.includes(word);
   }
+
+  public static wordWithAccent(letters: ILetter[]): ILetter[] {
+    const word = letters
+      .map((letter) => letter.text.toLowerCase())
+      .join('');
+
+    const valibleWordsWithoutAccents = Object.keys(valibleWords);
+
+    if (valibleWordsWithoutAccents.includes(word)) {
+      const wordAccent =
+        Object.values(valibleWords)[
+          valibleWordsWithoutAccents.indexOf(word)
+        ];
+      const wordWithAccentLetters = wordAccent.split('');
+
+      return wordWithAccentLetters.map((letter, index) => ({
+        text: letter,
+        color: letters[index].color,
+        flip: letters[index].flip,
+      }));
+    }
+
+    if (words.includes(word)) {
+      const wordAccent = Object.values(words)[words.indexOf(word)];
+      const wordWithAccentLetters = wordAccent.split('');
+
+      return wordWithAccentLetters.map((letter, index) => ({
+        text: letter,
+        color: letters[index].color,
+        flip: letters[index].flip,
+      }));
+    }
+
+    return letters;
+  }
 }
