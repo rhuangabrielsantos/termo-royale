@@ -4,8 +4,6 @@ import { ILetter } from '../interfaces';
 import { keyboardService } from '../service/KeyboardService';
 import { WordsService } from '../service/WordsService';
 import { AlertMessage } from './AlertMessage';
-import { Container } from './Container';
-import { Keyboard } from './Keyboard';
 import { Word } from './Word';
 
 interface BoardProps {
@@ -168,7 +166,7 @@ export function Board({ correctWord, words, setWords }: BoardProps) {
   };
 
   return (
-    <Container gap="0.125em">
+    <>
       <AlertMessage isVisible={error} message={errorMessage} />
 
       <Word
@@ -219,8 +217,6 @@ export function Board({ correctWord, words, setWords }: BoardProps) {
         setError={setError}
         name="sixth"
       />
-
-      <Keyboard />
-    </Container>
+    </>
   );
 }
