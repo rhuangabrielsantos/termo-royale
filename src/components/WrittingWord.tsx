@@ -1,4 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+import { KeyboardContext } from '../context/KeyboardContext';
 import { ILetter } from '../interfaces';
 import { WordsService } from '../service/WordsService';
 import { Box } from './Box';
@@ -34,6 +40,7 @@ export function WrittingWord({
   ]);
 
   const boxRef = useRef<HTMLDivElement>(null);
+  const { eventKey, setEventKey } = useContext(KeyboardContext);
 
   const updateFocusByEvent = (index: number) => {
     if (index > 4) {
@@ -77,6 +84,11 @@ export function WrittingWord({
 
   const handleOnKeyDown = (event: any) => {
     const { key } = event;
+    setEventKey('');
+
+    if (boxRef.current) {
+      boxRef.current.focus();
+    }
 
     if (key === 'Backspace') {
       setError(false);
@@ -156,6 +168,11 @@ export function WrittingWord({
       return;
     }
   }, [letters]);
+
+  useEffect(() => {
+    handleOnKeyDown({ key: eventKey });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [eventKey]);
 
   useEffect(() => {
     if (boxRef.current) {

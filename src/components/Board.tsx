@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { KeyboardContext } from '../context/KeyboardContext';
 import { ILetter } from '../interfaces';
+import { keyboardService } from '../service/KeyboardService';
 import { WordsService } from '../service/WordsService';
 import { AlertMessage } from './AlertMessage';
 import { Container } from './Container';
+import { Keyboard } from './Keyboard';
 import { Word } from './Word';
 
 interface BoardProps {
@@ -26,15 +29,25 @@ export function Board({ correctWord, words, setWords }: BoardProps) {
     'essa palavra não é aceita'
   );
 
+  const { keys, setKeys } = useContext(KeyboardContext);
+
   const checkWord = async (word: ILetter[]) => {
     const correctWordInArray = correctWord.toUpperCase().split('');
     const wordInArray = word.map((letter) => letter.text);
     const index = wordControl.indexOf(true);
+    const newKeys = keys;
 
     for (let i = 0; i < correctWordInArray.length; i++) {
       if (correctWordInArray[i] === wordInArray[i]) {
         word[i].color = 'correctPlace';
         word[i].flip = true;
+
+        const keyEnum = keyboardService.getKeyEnumByKey(
+          wordInArray[i].toLowerCase()
+        );
+
+        newKeys[keyEnum].color = 'correctPlace';
+
         correctWordInArray[i] = '_';
         wordInArray[i] = '_';
       }
@@ -48,16 +61,33 @@ export function Board({ correctWord, words, setWords }: BoardProps) {
       const indexOf = correctWordInArray.indexOf(wordInArray[i]);
 
       if (indexOf !== -1) {
-        correctWordInArray[indexOf] = '_';
-        wordInArray[i] = '_';
+        const keyEnum = keyboardService.getKeyEnumByKey(
+          wordInArray[i].toLowerCase()
+        );
+
+        newKeys[keyEnum].color =
+          newKeys[keyEnum].color === 'correctPlace'
+            ? 'correctPlace'
+            : 'incorrectPlace';
+
         word[i].color = 'incorrectPlace';
         word[i].flip = true;
+        correctWordInArray[indexOf] = '_';
+        wordInArray[i] = '_';
 
         continue;
       }
 
       word[i].color = 'nonExisting';
       word[i].flip = true;
+
+      const keyEnum = keyboardService.getKeyEnumByKey(
+        word[i].text.toLowerCase()
+      );
+
+      if (newKeys[keyEnum]) {
+        newKeys[keyEnum].color = 'nonExisting';
+      }
     }
 
     const wordsWithAccent = WordsService.wordWithAccent(word);
@@ -91,6 +121,7 @@ export function Board({ correctWord, words, setWords }: BoardProps) {
     newWorldControl[index + 1] = true;
 
     setWorldControl(newWorldControl);
+    setKeys(newKeys);
 
     if (index >= 5) {
       setError(true);
@@ -188,6 +219,8 @@ export function Board({ correctWord, words, setWords }: BoardProps) {
         setError={setError}
         name="sixth"
       />
+
+      <Keyboard />
     </Container>
   );
 }

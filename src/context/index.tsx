@@ -1,3 +1,4 @@
+import { KeyboardProvider } from './KeyboardContext';
 import { WordsProvider } from './WordsContext';
 
 interface IContextProvider {
@@ -5,7 +6,11 @@ interface IContextProvider {
 }
 
 export function ContextProvider({ children }: IContextProvider) {
-  return <WordsProvider>{children}</WordsProvider>;
+  return (
+    <WordsProvider>
+      <KeyboardProvider>{children}</KeyboardProvider>
+    </WordsProvider>
+  );
 }
 
 export { WordsContext } from './WordsContext';
