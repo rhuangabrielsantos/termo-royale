@@ -7,6 +7,7 @@ import React, {
 import { KeyboardContext } from '../context/KeyboardContext';
 import { ILetter } from '../interfaces';
 import { WordsService } from '../service/WordsService';
+import { registerEvent } from '../utils/LogUtils';
 import { Box } from './Box';
 import { Letter } from './Letter';
 
@@ -170,6 +171,7 @@ export function WrittingWord({
   }, [letters]);
 
   useEffect(() => {
+    registerEvent('virtual_keyboard_click');
     handleOnKeyDown({ key: eventKey });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [eventKey]);
@@ -184,7 +186,10 @@ export function WrittingWord({
     <Box
       flexDirection="row"
       gap="0.125em"
-      onKeyDown={handleOnKeyDown}
+      onKeyDown={(event) => {
+        handleOnKeyDown(event);
+        registerEvent('real_keyboard_click');
+      }}
       tabIndex={0}
       ref={boxRef}
       animationError={error}

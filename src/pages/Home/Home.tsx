@@ -1,9 +1,24 @@
+import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Button, Container, Text } from '../../components';
+import { AuthContext } from '../../context/AuthContext';
 import { theme } from '../../styles/theme';
+import {
+  registerEvent,
+  registesPageView,
+} from '../../utils/LogUtils';
 
 export function Home() {
   const history = useNavigate();
+  const { signInWithGoogle } = useContext(AuthContext);
+
+  const handleSignInWithGoogle = async () => {
+    await signInWithGoogle();
+  };
+
+  useEffect(() => {
+    registesPageView('/');
+  }, []);
 
   return (
     <Container>
@@ -17,15 +32,26 @@ export function Home() {
       </Text>
 
       <Box flexDirection="row" gap="1rem">
-        <Button color={theme.colors.letter.nonExisting}>
-          CRIAR CONTA
+        <Button
+          color={theme.colors.letter.nonExisting}
+          onClick={() => {
+            history('/single/game');
+            registerEvent('play_offline');
+          }}
+        >
+          JOGAR OFFLINE
         </Button>
 
         <Button
+          disabled
           color={theme.colors.letter.correctPlace}
-          onClick={() => history('/game')}
+          onClick={() => {
+            handleSignInWithGoogle();
+            registerEvent('play_online');
+          }}
+          title="Em breve!"
         >
-          ENTRAR
+          JOGAR ONLINE
         </Button>
       </Box>
     </Container>

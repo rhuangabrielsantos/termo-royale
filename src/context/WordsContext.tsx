@@ -16,7 +16,7 @@ interface IWordsProviderProps {
   children: React.ReactNode;
 }
 
-export function WordsProvider(props: IWordsProviderProps) {
+export function WordsContextProvider(props: IWordsProviderProps) {
   const [words, setWords] = useState<ILetter[][]>([]);
 
   return (

@@ -54,8 +54,6 @@ export class WordsService {
     const wordsLength = words.length;
     const randomIndex = Math.floor(Math.random() * wordsLength);
 
-    console.log(words[randomIndex]);
-
     return words[randomIndex];
   }
 

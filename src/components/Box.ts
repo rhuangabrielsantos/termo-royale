@@ -6,7 +6,6 @@ export const Box = styled.div<{
   animationError?: boolean;
 }>`
   display: flex;
-  flex-direction: ${(props) => props.flexDirection};
   align-items: center;
   justify-content: center;
 
@@ -17,4 +16,8 @@ export const Box = styled.div<{
     props.animationError
       ? '0.75s ease-in-out 0s 1 normal none running rownope'
       : 'none'};
+
+  @media (max-width: 700px) {
+    flex-direction: column !important;
+  }
 `;

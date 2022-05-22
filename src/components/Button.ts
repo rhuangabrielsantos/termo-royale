@@ -22,11 +22,13 @@ export const Button = styled.button<ButtonProps>`
   min-width: 200px;
 
   transition: scale 0.2s ease-in-out;
+
   &:hover {
     scale: 1.05;
   }
 
-  &:active {
-    animation: 0.15s ease-out 0s 1 normal none running popup;
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 `;

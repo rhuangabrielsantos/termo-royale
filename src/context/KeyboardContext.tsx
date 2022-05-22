@@ -20,7 +20,9 @@ interface IKeyboardProviderProps {
   children: React.ReactNode;
 }
 
-export function KeyboardProvider(props: IKeyboardProviderProps) {
+export function KeyboardContextProvider(
+  props: IKeyboardProviderProps
+) {
   const [keys, setKeys] = useState<IKey[]>([
     { key: 'Q' },
     { key: 'W' },

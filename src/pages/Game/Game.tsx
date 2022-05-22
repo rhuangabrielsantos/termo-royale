@@ -5,6 +5,7 @@ import { Header } from '../../components/Header';
 import { Keyboard } from '../../components/Keyboard';
 import { WordsContext } from '../../context';
 import { WordsService } from '../../service/WordsService';
+import { registesPageView } from '../../utils/LogUtils';
 
 export function Game() {
   const { words, setWords } = useContext(WordsContext);
@@ -14,6 +15,10 @@ export function Game() {
     setWords(WordsService.makeInitialWordsState());
     setCorrectWord(WordsService.getRandomWord());
   }, [setWords]);
+
+  useEffect(() => {
+    registesPageView('/single/game');
+  }, []);
 
   return (
     <Container gap="0.125em">

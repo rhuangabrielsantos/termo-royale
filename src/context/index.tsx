@@ -1,5 +1,6 @@
-import { KeyboardProvider } from './KeyboardContext';
-import { WordsProvider } from './WordsContext';
+import { AuthContextProvider } from './AuthContext';
+import { KeyboardContextProvider } from './KeyboardContext';
+import { WordsContextProvider } from './WordsContext';
 
 interface IContextProvider {
   children: React.ReactNode;
@@ -7,9 +8,11 @@ interface IContextProvider {
 
 export function ContextProvider({ children }: IContextProvider) {
   return (
-    <WordsProvider>
-      <KeyboardProvider>{children}</KeyboardProvider>
-    </WordsProvider>
+    <AuthContextProvider>
+      <WordsContextProvider>
+        <KeyboardContextProvider>{children}</KeyboardContextProvider>
+      </WordsContextProvider>
+    </AuthContextProvider>
   );
 }
 
