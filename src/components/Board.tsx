@@ -89,9 +89,14 @@ export function Board({ correctWord, words, setWords }: BoardProps) {
       );
 
       if (newKeys[keyEnum]) {
-        newKeys[keyEnum].color = 'nonExisting';
+        newKeys[keyEnum].color =
+          newKeys[keyEnum].color === 'correctPlace' ||
+          newKeys[keyEnum].color === 'incorrectPlace'
+            ? newKeys[keyEnum].color
+            : 'nonExisting';
       }
     }
+    console.log(newKeys);
 
     const wordsWithAccent = WordsService.wordWithAccent(word);
 
