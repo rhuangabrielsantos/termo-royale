@@ -25,9 +25,9 @@ const auth = firebase.auth();
 const database = firebase.database();
 let analytics: Analytics | undefined;
 
-if (process.env.NODE_ENV === 'production') {
-  analytics = getAnalytics(app);
-  logEvent(analytics, 'notification_received');
-}
+// if (process.env.NODE_ENV === 'production') {
+analytics = getAnalytics(app);
+logEvent(analytics, 'notification_received');
+// }
 
 export { firebase, auth, database, analytics };

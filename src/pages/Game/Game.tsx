@@ -9,7 +9,10 @@ import { Keyboard } from '../../components/Keyboard';
 import { Modal } from '../../components/Modal';
 import { WordsContext } from '../../context';
 import { WordsService } from '../../service/WordsService';
-import { registesPageView } from '../../utils/LogUtils';
+import {
+  registerEvent,
+  registesPageView,
+} from '../../utils/LogUtils';
 
 import animationDataWinner from '../../assets/animations/winner.json';
 import animationDataLoser from '../../assets/animations/loser.json';
@@ -55,6 +58,7 @@ export function Game() {
     setTimeout(() => {
       if (gameWinner.length > 0) {
         setIsWinnerModalOpen(true);
+        registerEvent('game-won');
         return;
       }
     }, 4000);
@@ -66,6 +70,7 @@ export function Game() {
     setTimeout(() => {
       if (gameLoser.length === 6) {
         setIsLoserModalOpen(true);
+        registerEvent('game-lost');
         return;
       }
     }, 3000);
