@@ -102,8 +102,8 @@ export function Board({ correctWord, words, setWords }: BoardProps) {
     setWords(newWords);
     await flipLetters(index);
 
-    const hasGameEnded = correctWordInArray.every(
-      (letter) => letter === '_'
+    const hasGameEnded = wordsWithAccent.every(
+      (letter) => letter.color === 'correctPlace'
     );
 
     const newWorldControl = [...wordControl];
