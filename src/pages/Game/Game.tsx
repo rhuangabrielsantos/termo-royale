@@ -1,20 +1,75 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Container } from '../../components';
+import Lottie from 'react-lottie';
+import { RiRestartLine } from 'react-icons/ri';
+
+import { Button, Container, Text } from '../../components';
 import { Board } from '../../components/Board';
 import { Header } from '../../components/Header';
 import { Keyboard } from '../../components/Keyboard';
+import { Modal } from '../../components/Modal';
 import { WordsContext } from '../../context';
 import { WordsService } from '../../service/WordsService';
 import { registesPageView } from '../../utils/LogUtils';
 
+import animationDataWinner from '../../assets/animations/winner.json';
+import animationDataLoser from '../../assets/animations/loser.json';
+
+import { theme } from '../../styles/theme';
+
 export function Game() {
   const { words, setWords } = useContext(WordsContext);
   const [correctWord, setCorrectWord] = useState('');
+  const [isWinnerModalOpen, setIsWinnerModalOpen] = useState(false);
+  const [isLoserModalOpen, setIsLoserModalOpen] = useState(false);
+
+  const winnerConfigs = {
+    loop: true,
+    autoplay: true,
+    animationData: animationDataWinner,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice',
+    },
+  };
+
+  const loserConfigs = {
+    loop: true,
+    autoplay: true,
+    animationData: animationDataLoser,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice',
+    },
+  };
 
   useEffect(() => {
     setWords(WordsService.makeInitialWordsState());
     setCorrectWord(WordsService.getRandomWord());
   }, [setWords]);
+
+  useEffect(() => {
+    const gameWinner = words.filter((letters) => {
+      return letters.every(
+        (letter) => letter.color === 'correctPlace'
+      );
+    });
+
+    setTimeout(() => {
+      if (gameWinner.length > 0) {
+        setIsWinnerModalOpen(true);
+        return;
+      }
+    }, 4000);
+
+    const gameLoser = words.filter((letters) => {
+      return letters.every((letter) => letter.flip === true);
+    });
+
+    setTimeout(() => {
+      if (gameLoser.length === 6) {
+        setIsLoserModalOpen(true);
+        return;
+      }
+    }, 3000);
+  }, [words]);
 
   useEffect(() => {
     registesPageView('/single/game');
@@ -31,6 +86,41 @@ export function Game() {
       />
 
       <Keyboard />
+
+      <Modal
+        isOpen={isWinnerModalOpen}
+        onClose={() => setIsWinnerModalOpen(false)}
+      >
+        <Lottie options={winnerConfigs} height={200} width={200} />
+        <Text>Parabéns, você acertou o TERMO!</Text>
+
+        <Button
+          color={theme.colors.letter.correctPlace}
+          onClick={() => window.location.reload()}
+        >
+          <RiRestartLine style={{ marginRight: '0.5rem' }} />
+          JOGAR NOVAMENTE
+        </Button>
+      </Modal>
+
+      <Modal
+        isOpen={isLoserModalOpen}
+        onClose={() => setIsLoserModalOpen(false)}
+      >
+        <Lottie options={loserConfigs} height={200} width={200} />
+        <Text>
+          Que pena, você não acertou. O termo era <b>{correctWord}</b>
+          !
+        </Text>
+
+        <Button
+          color={theme.colors.letter.correctPlace}
+          onClick={() => window.location.reload()}
+        >
+          <RiRestartLine style={{ marginRight: '0.5rem' }} />
+          JOGAR NOVAMENTE
+        </Button>
+      </Modal>
     </Container>
   );
 }

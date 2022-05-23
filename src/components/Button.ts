@@ -23,6 +23,10 @@ export const Button = styled.button<ButtonProps>`
 
   transition: scale 0.2s ease-in-out;
 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   &:hover {
     scale: 1.05;
   }

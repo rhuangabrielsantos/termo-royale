@@ -54,7 +54,9 @@ export class WordsService {
     const wordsLength = words.length;
     const randomIndex = Math.floor(Math.random() * wordsLength);
 
-    return words[randomIndex];
+    console.log(words[randomIndex]);
+
+    return 'araba';
   }
 
   public static wordIsReal(word: string): boolean {

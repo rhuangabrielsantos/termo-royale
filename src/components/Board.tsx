@@ -23,9 +23,6 @@ export function Board({ correctWord, words, setWords }: BoardProps) {
   ]);
 
   const [error, setError] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>(
-    'essa palavra não é aceita'
-  );
 
   const { keys, setKeys } = useContext(KeyboardContext);
 
@@ -96,7 +93,6 @@ export function Board({ correctWord, words, setWords }: BoardProps) {
             : 'nonExisting';
       }
     }
-    console.log(newKeys);
 
     const wordsWithAccent = WordsService.wordWithAccent(word);
 
@@ -128,11 +124,6 @@ export function Board({ correctWord, words, setWords }: BoardProps) {
     setWords(newWords);
     setWorldControl(newWorldControl);
     setKeys(newKeys);
-
-    if (index >= 5) {
-      setError(true);
-      setErrorMessage(`o termo era "${correctWord}"`);
-    }
   };
 
   const [animateLetterId, setAnimateLetterId] = useState<number>(0);
@@ -175,7 +166,10 @@ export function Board({ correctWord, words, setWords }: BoardProps) {
 
   return (
     <>
-      <AlertMessage isVisible={error} message={errorMessage} />
+      <AlertMessage
+        isVisible={error}
+        message="essa palavra não é aceita"
+      />
 
       <Word
         letters={words[0] ?? []}
