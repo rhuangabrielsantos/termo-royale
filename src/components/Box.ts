@@ -16,8 +16,4 @@ export const Box = styled.div<{
     props.animationError
       ? '0.75s ease-in-out 0s 1 normal none running rownope'
       : 'none'};
-
-  @media (max-width: 700px) {
-    flex-direction: column !important;
-  }
 `;

@@ -1,12 +1,13 @@
 import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, Container, Text } from '../../components';
+import { Button, Container, Text } from '../../components';
 import { AuthContext } from '../../context/AuthContext';
 import { theme } from '../../styles/theme';
 import {
   registerEvent,
   registesPageView,
 } from '../../utils/LogUtils';
+import { Box } from './HomeStyle';
 
 export function Home() {
   const history = useNavigate();
@@ -31,7 +32,7 @@ export function Home() {
         quem é o mais rápido a descobrir o termo!
       </Text>
 
-      <Box flexDirection="row" gap="1rem">
+      <Box gap="1rem">
         <Button
           color={theme.colors.letter.nonExisting}
           onClick={() => {
