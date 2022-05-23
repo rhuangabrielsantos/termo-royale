@@ -30,7 +30,12 @@ export function Board({ correctWord, words, setWords }: BoardProps) {
   const { keys, setKeys } = useContext(KeyboardContext);
 
   const checkWord = async (word: ILetter[]) => {
-    const correctWordInArray = correctWord.toUpperCase().split('');
+    const correctWordWithoutAccents = correctWord
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
+    const correctWordInArray = correctWordWithoutAccents
+      .toUpperCase()
+      .split('');
     const wordInArray = word.map((letter) => letter.text);
     const index = wordControl.indexOf(true);
     const newKeys = keys;
@@ -100,24 +105,22 @@ export function Board({ correctWord, words, setWords }: BoardProps) {
       (letter) => letter === '_'
     );
 
-    if (hasGameEnded) {
-      return;
+    const newWorldControl = [...wordControl];
+
+    if (!hasGameEnded) {
+      newWords[index + 1] = [
+        { text: '', color: 'transparent', flip: false },
+        { text: '', color: 'transparent', flip: false },
+        { text: '', color: 'transparent', flip: false },
+        { text: '', color: 'transparent', flip: false },
+        { text: '', color: 'transparent', flip: false },
+      ];
+
+      newWorldControl[index + 1] = true;
     }
 
-    newWords[index + 1] = [
-      { text: '', color: 'transparent', flip: false },
-      { text: '', color: 'transparent', flip: false },
-      { text: '', color: 'transparent', flip: false },
-      { text: '', color: 'transparent', flip: false },
-      { text: '', color: 'transparent', flip: false },
-    ];
-
-    setWords(newWords);
-
-    const newWorldControl = [...wordControl];
     newWorldControl[index] = false;
-    newWorldControl[index + 1] = true;
-
+    setWords(newWords);
     setWorldControl(newWorldControl);
     setKeys(newKeys);
 

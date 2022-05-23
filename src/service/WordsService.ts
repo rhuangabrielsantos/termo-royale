@@ -82,7 +82,7 @@ export class WordsService {
       const wordWithAccentLetters = wordAccent.split('');
 
       return wordWithAccentLetters.map((letter, index) => ({
-        text: letter,
+        text: letter.toUpperCase(),
         color: letters[index].color,
         flip: letters[index].flip,
       }));
@@ -93,7 +93,7 @@ export class WordsService {
       const wordWithAccentLetters = wordAccent.split('');
 
       return wordWithAccentLetters.map((letter, index) => ({
-        text: letter,
+        text: letter.toUpperCase(),
         color: letters[index].color,
         flip: letters[index].flip,
       }));
