@@ -1,7 +1,8 @@
-import { useContext, useEffect, useState } from 'react';
-import Lottie from 'react-lottie';
+import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Container, Text } from '../../components';
+import { toast } from 'react-toastify';
+
+import { Button, Container, Header, Text } from '../../components';
 import { AuthContext } from '../../context/AuthContext';
 import { GameService } from '../../service/GameService';
 import { WordsService } from '../../service/WordsService';
@@ -11,21 +12,10 @@ import {
   registesPageView,
 } from '../../utils/LogUtils';
 import { Box } from './HomeStyle';
-import animationData from '../../assets/animations/loading.json';
 
 export function Home() {
   const history = useNavigate();
-  const { user, signInWithGoogle } = useContext(AuthContext);
-  const [loading, setLoading] = useState(false);
-
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData,
-    rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice',
-    },
-  };
+  const { user } = useContext(AuthContext);
 
   const handleCreateOfflineGame = () => {
     registerEvent('play_offline');
@@ -33,10 +23,9 @@ export function Home() {
   };
 
   const handleCreateOnlineGame = async () => {
-    setLoading(true);
-
     if (!user) {
-      await signInWithGoogle();
+      toast.dark('Você precisa estar logado para jogar online');
+      return;
     }
 
     const gameService = new GameService();
@@ -54,7 +43,6 @@ export function Home() {
       status: 'waiting',
     });
 
-    setLoading(false);
     registerEvent('play_online');
     history(`${game.key}/lobby`);
   };
@@ -63,12 +51,10 @@ export function Home() {
     registesPageView('/');
   }, []);
 
-  return loading ? (
+  return (
     <Container>
-      <Lottie options={defaultOptions} height={300} width={300} />
-    </Container>
-  ) : (
-    <Container>
+      <Header home />
+
       <Text fontWeight="bold" fontSize="3rem">
         TERMO ROYALE
       </Text>

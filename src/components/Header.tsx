@@ -2,19 +2,21 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { IoMdArrowRoundBack } from 'react-icons/io';
 import { HiHome } from 'react-icons/hi';
+import { FaSignOutAlt } from 'react-icons/fa';
 
 import { Text } from './Text';
 import { registerEvent } from '../utils/LogUtils';
 import { AuthContext } from '../context/AuthContext';
 import { Button } from './Button';
 import { useNavigate } from 'react-router-dom';
+import { Box } from './Box';
 
 interface HeaderProps {
   home?: boolean;
 }
 
 export function Header({ home }: HeaderProps) {
-  const { user, signInWithGoogle } = useContext(AuthContext);
+  const { user, signInWithGoogle, signOut } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSignIn = async () => {
@@ -56,7 +58,23 @@ export function Header({ home }: HeaderProps) {
       <Text fontWeight="bold">TERMO ROYALE</Text>
 
       {user ? (
-        <Avatar src={user.photoURL} />
+        <Box
+          flexDirection="row"
+          gap="1rem"
+          style={{
+            position: 'fixed',
+            right: '1rem',
+            top: '1rem',
+          }}
+        >
+          <Text>{user.name}</Text>
+          <Avatar src={user.photoURL} />
+          <FaSignOutAlt
+            onClick={signOut}
+            size={30}
+            style={{ cursor: 'pointer' }}
+          />
+        </Box>
       ) : (
         <Button
           style={{
@@ -80,11 +98,8 @@ const HeaderContainer = styled.header`
 `;
 
 const Avatar = styled.img`
-  position: fixed;
-  right: 1rem;
-  top: 1rem;
-  width: 3rem;
-  height: 3rem;
+  width: 2rem;
+  height: 2rem;
 
   border-radius: 50%;
 `;
