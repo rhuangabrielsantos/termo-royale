@@ -18,9 +18,12 @@ import animationDataWinner from '../../assets/animations/winner.json';
 import animationDataLoser from '../../assets/animations/loser.json';
 
 import { theme } from '../../styles/theme';
+import { KeyboardContext } from '../../context/KeyboardContext';
+import { keyboardService } from '../../service/KeyboardService';
 
 export function Game() {
   const { words, setWords } = useContext(WordsContext);
+  const { setKeys } = useContext(KeyboardContext);
   const [correctWord, setCorrectWord] = useState('');
   const [isWinnerModalOpen, setIsWinnerModalOpen] = useState(false);
   const [isLoserModalOpen, setIsLoserModalOpen] = useState(false);
@@ -46,7 +49,8 @@ export function Game() {
   useEffect(() => {
     setWords(WordsService.makeInitialWordsState());
     setCorrectWord(WordsService.getRandomWord());
-  }, [setWords]);
+    setKeys(keyboardService.generateEmptyKeyboard());
+  }, [setKeys, setWords]);
 
   useEffect(() => {
     const gameWinner = words.filter((letters) => {
