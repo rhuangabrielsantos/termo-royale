@@ -10,6 +10,8 @@ import { AuthContext } from '../../context/AuthContext';
 import { Keyboard } from '../../components/Keyboard';
 import { Box, Container, Header } from '../../components';
 import { GameService } from '../../service/GameService';
+import { KeyboardContext } from '../../context/KeyboardContext';
+import { keyboardService } from '../../service/KeyboardService';
 
 export function Versus() {
   const { id } = useParams();
@@ -23,6 +25,7 @@ export function Versus() {
   >([]);
   const { user } = useContext(AuthContext);
   const gameService = new GameService();
+  const { setKeys } = useContext(KeyboardContext);
 
   const defaultOptions = {
     loop: true,
@@ -122,6 +125,11 @@ export function Versus() {
       gameRef.off();
     };
   }, [id, history]);
+
+  useEffect(() => {
+    setKeys(keyboardService.generateEmptyKeyboard());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return !game || !user ? (
     <Container>

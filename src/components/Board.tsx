@@ -22,14 +22,11 @@ export function Board({
   isMyBoard,
   playerInfo,
 }: BoardProps) {
-  const [wordControl, setWorldControl] = useState<boolean[]>([
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
+  const [wordControl, setWorldControl] = useState<boolean[]>(
+    playerInfo && isMyBoard
+      ? [true, false, false, false, false, false]
+      : [false, false, false, false, false, false]
+  );
 
   const [error, setError] = useState<boolean>(false);
 
@@ -174,6 +171,11 @@ export function Board({
   };
 
   useEffect(() => {
+    if (!playerInfo) {
+      setWorldControl([true, false, false, false, false, false]);
+      return;
+    }
+
     if (isMyBoard) {
       const firstWordControl = [
         false,

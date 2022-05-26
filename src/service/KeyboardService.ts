@@ -1,4 +1,5 @@
 import { KeyEnum } from '../enums/KeyEnum';
+import { IKey } from '../interfaces';
 
 export class keyboardService {
   public static getKeyEnumByKey(key: string): number {
@@ -58,5 +59,36 @@ export class keyboardService {
       default:
         return 999;
     }
+  }
+
+  public static generateEmptyKeyboard(): IKey[] {
+    return [
+      { key: 'Q' },
+      { key: 'W' },
+      { key: 'E' },
+      { key: 'R' },
+      { key: 'T' },
+      { key: 'Y' },
+      { key: 'U' },
+      { key: 'I' },
+      { key: 'O' },
+      { key: 'P' },
+      { key: 'A' },
+      { key: 'S' },
+      { key: 'D' },
+      { key: 'F' },
+      { key: 'G' },
+      { key: 'H' },
+      { key: 'J' },
+      { key: 'K' },
+      { key: 'L' },
+      { key: 'Z' },
+      { key: 'X' },
+      { key: 'C' },
+      { key: 'V' },
+      { key: 'B' },
+      { key: 'N' },
+      { key: 'M' },
+    ];
   }
 }
