@@ -57,7 +57,7 @@ export function Result() {
     },
   };
 
-  const handleCreateOnlineGame = async () => {
+  const handleReadyGame = async () => {
     if (!user) {
       toast.dark('Você precisa estar logado para jogar online');
       return;
@@ -84,6 +84,30 @@ export function Result() {
       return;
     }
 
+    await gameService.updateGame(id || '', {
+      adminId: game?.adminId || '',
+      correctWord: game?.correctWord || '',
+      players: newPlayers,
+      status: 'waiting',
+    });
+  };
+
+  const handlExitGame = async () => {
+    if (!user) {
+      toast.dark('Você precisa estar logado para jogar online');
+      return;
+    }
+
+    const newPlayers = [...(game?.players || [])];
+    newPlayers[isFirstPlayer ? 0 : 1] = {
+      id: user.id,
+      name: user.name,
+      photoURL: user.photoURL,
+      letters: WordsService.makeInitialWordsState(),
+      ready: false,
+    };
+
+    const gameService = new GameService();
     await gameService.updateGame(id || '', {
       adminId: game?.adminId || '',
       correctWord: game?.correctWord || '',
@@ -166,28 +190,44 @@ export function Result() {
         gap="1rem"
         style={{ marginTop: '1rem' }}
       >
-        {!game.players[isFirstPlayer ? 0 : 1]?.ready && (
+        {!game.players[isFirstPlayer ? 0 : 1]?.ready ? (
           <Button
             color={theme.colors.letter.correctPlace}
-            onClick={handleCreateOnlineGame}
+            onClick={handleReadyGame}
           >
             JOGAR NOVAMENTE
+          </Button>
+        ) : (
+          <Button
+            color={theme.colors.letter.nonExisting}
+            onClick={handlExitGame}
+          >
+            SAIR
           </Button>
         )}
 
         {game.players.map((player) => (
-          <Avatar src={player.photoURL} awaiting={!player.ready} />
+          <Box
+            flexDirection="row"
+            gap="0"
+            style={{
+              position: 'relative',
+            }}
+          >
+            <Avatar src={player.photoURL} awaiting={!player.ready} />
+            <Emoji awaiting={!player.ready} />
+          </Box>
         ))}
       </Box>
     </Container>
   );
 }
 
-interface AvatarProps {
+interface AwaiginProps {
   awaiting?: boolean;
 }
 
-const Avatar = styled.img<AvatarProps>`
+const Avatar = styled.img<AwaiginProps>`
   border-radius: 50%;
   width: 3rem;
   height: 3rem;
@@ -196,4 +236,14 @@ const Avatar = styled.img<AvatarProps>`
 
   filter: ${({ awaiting }) =>
     awaiting ? 'grayscale(100%)' : 'grayscale(0%)'};
+`;
+
+const Emoji = styled.span<AwaiginProps>`
+  &::before {
+    content: ${({ awaiting }) => (awaiting ? '"⛔"' : '"✅"')};
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 0.8rem;
+  }
 `;

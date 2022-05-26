@@ -66,6 +66,11 @@ export function Lobby() {
       return;
     }
 
+    if (game?.players.length === 2) {
+      toast.dark('A partida já está cheia');
+      return;
+    }
+
     await gameService.addPlayer(id || '', {
       id: user?.id || '',
       name: user?.name || '',
