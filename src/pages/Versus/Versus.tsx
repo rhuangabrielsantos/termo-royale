@@ -54,15 +54,13 @@ export function Versus() {
       players: newPlayers,
     });
 
-    const gameWinner = words.filter((letters) => {
-      return letters.every(
-        (letter) => letter.color === 'correctPlace'
-      );
-    });
-
-    let hasWinner = false;
-
     setTimeout(() => {
+      const gameWinner = words.filter((letters) => {
+        return letters.every(
+          (letter) => letter.color === 'correctPlace'
+        );
+      });
+
       if (gameWinner.length > 0) {
         gameService.updateGame(id || '', {
           adminId: game?.adminId || '',
@@ -77,28 +75,21 @@ export function Versus() {
           },
         });
 
-        hasWinner = true;
         return;
       }
-    }, 4000);
 
-    if (hasWinner) {
-      return;
-    }
+      const firstPlayerLose = game.players[0].letters.filter(
+        (letters) => {
+          return letters.every((letter) => letter.flip === true);
+        }
+      );
 
-    const firstPlayerLose = game.players[0].letters.filter(
-      (letters) => {
-        return letters.every((letter) => letter.flip === true);
-      }
-    );
+      const secondPlayerLose = game.players[1].letters.filter(
+        (letters) => {
+          return letters.every((letter) => letter.flip === true);
+        }
+      );
 
-    const secondPlayerLose = game.players[1].letters.filter(
-      (letters) => {
-        return letters.every((letter) => letter.flip === true);
-      }
-    );
-
-    setTimeout(() => {
       if (
         firstPlayerLose.length === 6 &&
         secondPlayerLose.length === 6
@@ -110,7 +101,7 @@ export function Versus() {
           status: 'finished',
         });
       }
-    }, 3000);
+    }, 4000);
   };
 
   useEffect(() => {
