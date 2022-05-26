@@ -3,7 +3,7 @@ import Lottie from 'react-lottie';
 import { useNavigate, useParams } from 'react-router-dom';
 import { MdContentCopy } from 'react-icons/md';
 import styled from 'styled-components';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import {
@@ -149,18 +149,6 @@ export function Lobby() {
           )}
         </Box>
       )}
-
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
     </Container>
   );
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { ToastContainer } from 'react-toastify';
 import { ThemeProvider } from 'styled-components';
 import { ContextProvider } from './context';
 import { Router } from './Router';
@@ -12,6 +13,18 @@ function App() {
         <GlobalStyle />
 
         <Router />
+
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
       </ThemeProvider>
     </ContextProvider>
   );
