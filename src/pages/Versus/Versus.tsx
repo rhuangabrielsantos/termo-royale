@@ -1,14 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Lottie from 'react-lottie';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Board } from '../../components/Board';
 import { IGame } from '../../interfaces/IGame';
 import { database } from '../../service/FirebaseService';
-import animationData from '../../assets/animations/loading.json';
 import { ILetter } from '../../interfaces';
 import { AuthContext } from '../../context/AuthContext';
 import { Keyboard } from '../../components/Keyboard';
-import { Box, Container, Header } from '../../components';
+import { Box, Container, Header, Loading } from '../../components';
 import { GameService } from '../../service/GameService';
 import { KeyboardContext } from '../../context/KeyboardContext';
 import { keyboardService } from '../../service/KeyboardService';
@@ -26,15 +24,6 @@ export function Versus() {
   const { user } = useContext(AuthContext);
   const gameService = new GameService();
   const { setKeys } = useContext(KeyboardContext);
-
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData,
-    rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice',
-    },
-  };
 
   const handleUpdatePlayerWords = async (
     player: string,
@@ -159,14 +148,7 @@ export function Versus() {
   }, [game, id]);
 
   return !game || !user ? (
-    <Container>
-      <Lottie
-        options={defaultOptions}
-        height={300}
-        width={300}
-        isClickToPauseDisabled
-      />
-    </Container>
+    <Loading />
   ) : (
     <Container>
       <Header />

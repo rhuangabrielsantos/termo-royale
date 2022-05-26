@@ -17,3 +17,5 @@ export function ContextProvider({ children }: IContextProvider) {
 }
 
 export { WordsContext } from './WordsContext';
+export { AuthContext } from './AuthContext';
+export { KeyboardContext } from './KeyboardContext';

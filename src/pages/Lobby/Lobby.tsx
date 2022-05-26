@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Lottie from 'react-lottie';
 import { useNavigate, useParams } from 'react-router-dom';
 import { MdContentCopy } from 'react-icons/md';
 import styled from 'styled-components';
@@ -11,10 +10,10 @@ import {
   Button,
   Container,
   Header,
+  Loading,
   Text,
 } from '../../components';
 import { database } from '../../service/FirebaseService';
-import animationData from '../../assets/animations/loading.json';
 import { IGame } from '../../interfaces/IGame';
 import { GameService } from '../../service/GameService';
 import { theme } from '../../styles/theme';
@@ -27,15 +26,6 @@ export function Lobby() {
   const [game, setGame] = useState<IGame>();
   const history = useNavigate();
   const gameService = new GameService();
-
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData,
-    rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice',
-    },
-  };
 
   const copyUrlToClipboard = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -104,14 +94,7 @@ export function Lobby() {
   }, [history, id]);
 
   return !game ? (
-    <Container>
-      <Lottie
-        options={defaultOptions}
-        height={300}
-        width={300}
-        isClickToPauseDisabled
-      />
-    </Container>
+    <Loading />
   ) : (
     <Container>
       <Header />

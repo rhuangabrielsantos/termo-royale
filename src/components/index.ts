@@ -5,3 +5,4 @@ export * from './Header';
 export * from './Letter';
 export * from './Text';
 export * from './Word';
+export * from './Loading';

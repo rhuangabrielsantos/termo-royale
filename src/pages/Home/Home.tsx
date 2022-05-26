@@ -1,8 +1,14 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import { Button, Container, Header, Text } from '../../components';
+import {
+  Button,
+  Container,
+  Header,
+  Text,
+  Loading,
+} from '../../components';
 import { AuthContext } from '../../context/AuthContext';
 import { GameService } from '../../service/GameService';
 import { WordsService } from '../../service/WordsService';
@@ -16,6 +22,7 @@ import { Box } from './HomeStyle';
 export function Home() {
   const history = useNavigate();
   const { user } = useContext(AuthContext);
+  const [loading, setLoading] = useState(true);
 
   const handleCreateOfflineGame = () => {
     registerEvent('play_offline');
@@ -27,6 +34,8 @@ export function Home() {
       toast.dark('Você precisa estar logado para jogar online');
       return;
     }
+
+    setLoading(true);
 
     const gameService = new GameService();
     const game = await gameService.createGame({
@@ -44,6 +53,7 @@ export function Home() {
       status: 'waiting',
     });
 
+    setLoading(false);
     registerEvent('play_online');
     history(`${game.key}/lobby`);
   };
@@ -52,7 +62,9 @@ export function Home() {
     registesPageView('/');
   }, []);
 
-  return (
+  return loading ? (
+    <Loading />
+  ) : (
     <Container>
       <Header home />
 

@@ -4,13 +4,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import animationDataWinner from '../../assets/animations/winner.json';
 import animationDataLoser from '../../assets/animations/loser.json';
-import animationData from '../../assets/animations/loading.json';
 
 import {
   Box,
   Button,
   Container,
   Header,
+  Loading,
   Text,
 } from '../../components';
 import { IGame } from '../../interfaces/IGame';
@@ -29,15 +29,6 @@ export function Result() {
   const { user } = useContext(AuthContext);
   const history = useNavigate();
   const [isFirstPlayer, setIsFirstPlayer] = useState(false);
-
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData,
-    rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice',
-    },
-  };
 
   const winnerConfigs = {
     loop: true,
@@ -143,14 +134,7 @@ export function Result() {
   }, [id, history, user]);
 
   return !game ? (
-    <Container>
-      <Lottie
-        options={defaultOptions}
-        height={300}
-        width={300}
-        isClickToPauseDisabled
-      />
-    </Container>
+    <Loading />
   ) : (
     <Container>
       <Header home />
