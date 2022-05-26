@@ -21,10 +21,12 @@ export const Key = styled.button<{ color?: ColorOptions }>`
   border-radius: 8%;
   color: ${(props) => props.theme.colors.text};
   font-family: ${(props) => props.theme.fontFamily};
-  font-size: 1.5rem;
+  font-size: 5vh;
   line-height: 1em;
   font-weight: 500;
   cursor: pointer;
+
+  padding: 2vh 2.5vh;
 
   grid-column: span 3;
   display: flex;

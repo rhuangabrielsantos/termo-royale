@@ -22,7 +22,7 @@ import { Box } from './HomeStyle';
 export function Home() {
   const history = useNavigate();
   const { user } = useContext(AuthContext);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const handleCreateOfflineGame = () => {
     registerEvent('play_offline');

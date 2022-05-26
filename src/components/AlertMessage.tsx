@@ -16,6 +16,9 @@ const Alert = styled.div<{ isVisible: boolean }>`
   align-items: center;
 
   visibility: ${(props) => (props.isVisible ? 'visible' : 'hidden')};
+  opacity: ${(props) => (props.isVisible ? 1 : 0)};
+  transition: opacity 0.5s ease-in-out;
+  display: ${(props) => (props.isVisible ? 'flex' : 'none')};
 
   animation: ${(props) =>
     props.isVisible
@@ -30,5 +33,5 @@ const Alert = styled.div<{ isVisible: boolean }>`
   font-weight: 400;
   font-size: 2.5vh;
 
-  margin-bottom: 1rem;
+  margin: 1.6rem 0;
 `;

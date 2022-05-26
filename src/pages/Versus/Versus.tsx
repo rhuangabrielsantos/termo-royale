@@ -4,9 +4,11 @@ import { Board } from '../../components/Board';
 import { IGame } from '../../interfaces/IGame';
 import { database } from '../../service/FirebaseService';
 import { ILetter } from '../../interfaces';
+
 import { AuthContext } from '../../context/AuthContext';
 import { Keyboard } from '../../components/Keyboard';
 import { Box, Container, Header, Loading } from '../../components';
+
 import { GameService } from '../../service/GameService';
 import { KeyboardContext } from '../../context/KeyboardContext';
 import { keyboardService } from '../../service/KeyboardService';
@@ -154,7 +156,7 @@ export function Versus() {
       <Header />
 
       <Box flexDirection="row" gap="4rem">
-        <div>
+        <Box flexDirection="column" gap="0rem">
           <Board
             correctWord={game?.correctWord}
             words={firstPlayerWords}
@@ -163,10 +165,11 @@ export function Versus() {
             }
             isMyBoard={game.players[0].id === user.id}
             playerInfo="first"
+            player={game.players[0]}
           />
-        </div>
+        </Box>
 
-        <div>
+        <Box flexDirection="column" gap="0rem">
           <Board
             correctWord={game?.correctWord}
             words={secondPlayerWords}
@@ -175,8 +178,9 @@ export function Versus() {
             }
             isMyBoard={game.players[1].id === user.id}
             playerInfo="second"
+            player={game.players[1]}
           />
-        </div>
+        </Box>
       </Box>
 
       <Keyboard />

@@ -199,7 +199,7 @@ const Grid = styled.div`
   grid-template-columns: repeat(32, 1fr);
   grid-gap: 0.25em;
   height: min(100em/2.15, 25vh);
-  max-width: 720px;
+  max-width: 90vh;
   width: 100%;
   margin: 2rem 0 0 0;
 

@@ -18,7 +18,7 @@ export type ColorOptions =
 export const Letter = styled.div<LetterProps>`
   font-weight: 600;
   font-family: ${(props) => props.theme.fontFamily};
-  font-size: 2rem;
+  font-size: 5vh;
   color: ${(props) => props.theme.colors.text};
   background-color: ${(props) =>
     props.color === 'unvailable'
@@ -37,8 +37,8 @@ export const Letter = styled.div<LetterProps>`
   justify-content: center;
   align-items: center;
 
-  width: 3.5rem;
-  height: 3.5rem;
+  width: 8vh;
+  height: 8vh;
 
   animation: ${(props) =>
     props.animate

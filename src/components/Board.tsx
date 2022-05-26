@@ -1,10 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
+import styled from 'styled-components';
 import { KeyboardContext } from '../context/KeyboardContext';
 import { ILetter } from '../interfaces';
+import { IPlayer } from '../interfaces/IPlayer';
 import { keyboardService } from '../service/KeyboardService';
 import { WordsService } from '../service/WordsService';
 import { AlertMessage } from './AlertMessage';
+import { Box } from './Box';
 import { Word } from './Word';
+import { Text } from './Text';
 
 interface BoardProps {
   correctWord: string;
@@ -13,6 +17,8 @@ interface BoardProps {
 
   isMyBoard?: boolean;
   playerInfo?: string;
+
+  player?: IPlayer;
 }
 
 export function Board({
@@ -21,6 +27,7 @@ export function Board({
   setWords,
   isMyBoard,
   playerInfo,
+  player,
 }: BoardProps) {
   const [wordControl, setWorldControl] = useState<boolean[]>(
     playerInfo && isMyBoard
@@ -196,11 +203,34 @@ export function Board({
   }, []);
 
   return (
-    <>
-      <AlertMessage
-        isVisible={error}
-        message="essa palavra não é aceita"
-      />
+    <div>
+      {player ? (
+        <>
+          <Box
+            flexDirection="row"
+            gap="1rem"
+            style={{
+              margin: '2rem 0',
+            }}
+            isHidden={error}
+          >
+            <Avatar src={player.photoURL} />
+            <Text fontSize="1.5rem" fontWeight="bold">
+              {player.name}
+            </Text>
+          </Box>
+
+          <AlertMessage
+            isVisible={error}
+            message="essa palavra não é aceita"
+          />
+        </>
+      ) : (
+        <AlertMessage
+          isVisible={error}
+          message="essa palavra não é aceita"
+        />
+      )}
 
       <Word
         letters={words[0] ?? []}
@@ -256,6 +286,13 @@ export function Board({
         name={`sixth${playerInfo}`}
         isMyBoard={isMyBoard}
       />
-    </>
+    </div>
   );
 }
+
+export const Avatar = styled.img`
+  width: 3rem;
+  height: 3rem;
+
+  border-radius: 50%;
+`;
