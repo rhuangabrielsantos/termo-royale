@@ -55,7 +55,17 @@ export function Header({ home }: HeaderProps) {
         />
       )}
 
-      <Text fontWeight="bold">TERMO ROYALE</Text>
+      <TextMobileHidden
+        fontWeight="bold"
+        style={{
+          position: 'fixed',
+          left: '50%',
+          top: '1rem',
+          transform: 'translateX(-50%)',
+        }}
+      >
+        TERMO ROYALE
+      </TextMobileHidden>
 
       {user ? (
         <Box
@@ -67,7 +77,9 @@ export function Header({ home }: HeaderProps) {
             top: '1rem',
           }}
         >
-          <Text>{user.name}</Text>
+          <TextMobileHidden fontWeight="bold">
+            {user.name.split(' ')[0].toUpperCase()}
+          </TextMobileHidden>
           <Avatar src={user.photoURL} />
           <FaSignOutAlt
             onClick={signOut}
@@ -102,4 +114,10 @@ const Avatar = styled.img`
   height: 2rem;
 
   border-radius: 50%;
+`;
+
+const TextMobileHidden = styled(Text)`
+  @media (max-width: 600px) {
+    display: none;
+  }
 `;

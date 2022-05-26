@@ -72,9 +72,10 @@ export function Home() {
         TERMO ROYALE
       </Text>
 
-      <Text fontSize="1rem" margin="0 3rem 5rem 3rem">
+      <Text fontSize="1rem" margin="0 2rem 3rem 2rem">
         Um battle royale para você desafiar seus amigos e descobrir
-        quem é o mais rápido a descobrir o termo!
+        quem é o mais rápido a descobrir o termo! <br /> Você pode
+        jogar sozinho offline ou jogar online em até 4 pessoas!
       </Text>
 
       <Box gap="1rem">

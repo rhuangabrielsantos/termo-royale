@@ -17,18 +17,13 @@ export function Versus() {
   const { id } = useParams();
   const history = useNavigate();
   const [game, setGame] = useState<IGame>();
-  const [firstPlayerWords, setFirstPlayerWords] = useState<
-    ILetter[][]
-  >([]);
-  const [secondPlayerWords, setSecondPlayerWords] = useState<
-    ILetter[][]
-  >([]);
+
   const { user } = useContext(AuthContext);
   const gameService = new GameService();
   const { setKeys } = useContext(KeyboardContext);
 
   const handleUpdatePlayerWords = async (
-    player: string,
+    player: number,
     words: ILetter[][]
   ) => {
     if (!game) {
@@ -36,7 +31,7 @@ export function Versus() {
     }
 
     const newPlayers = game?.players || [];
-    newPlayers[player === 'first' ? 0 : 1].letters = words;
+    newPlayers[player].letters = words;
 
     await gameService.updateGame(id || '', {
       adminId: game?.adminId || '',
@@ -109,8 +104,6 @@ export function Versus() {
       }
 
       setGame(game);
-      setFirstPlayerWords(game.players[0].letters);
-      setSecondPlayerWords(game.players[1].letters);
 
       if (game.status === 'finished') {
         history(`/${id}/result`);
@@ -156,31 +149,20 @@ export function Versus() {
       <Header />
 
       <Box flexDirection="row" gap="4rem">
-        <Box flexDirection="column" gap="0rem">
-          <Board
-            correctWord={game?.correctWord}
-            words={firstPlayerWords}
-            setWords={(words) =>
-              handleUpdatePlayerWords('first', words)
-            }
-            isMyBoard={game.players[0].id === user.id}
-            playerInfo="first"
-            player={game.players[0]}
-          />
-        </Box>
-
-        <Box flexDirection="column" gap="0rem">
-          <Board
-            correctWord={game?.correctWord}
-            words={secondPlayerWords}
-            setWords={(words) =>
-              handleUpdatePlayerWords('second', words)
-            }
-            isMyBoard={game.players[1].id === user.id}
-            playerInfo="second"
-            player={game.players[1]}
-          />
-        </Box>
+        {game.players.map((player, index) => (
+          <Box flexDirection="column" gap="0rem" key={index}>
+            <Board
+              correctWord={game?.correctWord}
+              words={player.letters}
+              setWords={(words) =>
+                handleUpdatePlayerWords(index, words)
+              }
+              isMyBoard={player.id === user.id}
+              playerInfo={index.toString()}
+              player={player}
+            />
+          </Box>
+        ))}
       </Box>
 
       <Keyboard />

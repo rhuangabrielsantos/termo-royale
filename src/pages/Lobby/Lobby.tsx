@@ -56,7 +56,7 @@ export function Lobby() {
       return;
     }
 
-    if (game?.players.length === 2) {
+    if (game?.players.length === 4) {
       toast.dark('A partida já está cheia');
       return;
     }

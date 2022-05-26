@@ -22,13 +22,14 @@ import { toast } from 'react-toastify';
 import { WordsService } from '../../service/WordsService';
 import { registerEvent } from '../../utils/LogUtils';
 import styled from 'styled-components';
+import { IPlayer } from '../../interfaces/IPlayer';
 
 export function Result() {
   const { id } = useParams();
   const [game, setGame] = useState<IGame>();
   const { user } = useContext(AuthContext);
   const history = useNavigate();
-  const [isFirstPlayer, setIsFirstPlayer] = useState(false);
+  const [currentPlayerId, setCurrentPlayerId] = useState<number>(0);
 
   const winnerConfigs = {
     loop: true,
@@ -55,7 +56,7 @@ export function Result() {
     }
 
     const newPlayers = [...(game?.players || [])];
-    newPlayers[isFirstPlayer ? 0 : 1] = {
+    newPlayers[currentPlayerId] = {
       id: user.id,
       name: user.name,
       photoURL: user.photoURL,
@@ -90,7 +91,7 @@ export function Result() {
     }
 
     const newPlayers = [...(game?.players || [])];
-    newPlayers[isFirstPlayer ? 0 : 1] = {
+    newPlayers[currentPlayerId] = {
       id: user.id,
       name: user.name,
       photoURL: user.photoURL,
@@ -113,12 +114,16 @@ export function Result() {
     gameRef.on('value', (snapshot) => {
       const game = snapshot.val();
 
-      setIsFirstPlayer(game?.players[0].id === user?.id || false);
-
       if (!game.adminId) {
         history('/');
         return;
       }
+
+      setCurrentPlayerId(
+        game.players.findIndex(
+          (player: IPlayer) => player.id === user?.id
+        )
+      );
 
       if (game.status === 'playing') {
         registerEvent('play_online_again');
@@ -174,10 +179,11 @@ export function Result() {
         gap="1rem"
         style={{ marginTop: '1rem' }}
       >
-        {!game.players[isFirstPlayer ? 0 : 1]?.ready ? (
+        {!game.players[currentPlayerId]?.ready ? (
           <Button
             color={theme.colors.letter.correctPlace}
             onClick={handleReadyGame}
+            style={{ marginRight: '1rem', minWidth: '18rem' }}
           >
             JOGAR NOVAMENTE
           </Button>
@@ -185,22 +191,14 @@ export function Result() {
           <Button
             color={theme.colors.letter.nonExisting}
             onClick={handlExitGame}
+            style={{ marginRight: '1rem', minWidth: '18rem' }}
           >
             SAIR
           </Button>
         )}
 
         {game.players.map((player) => (
-          <Box
-            flexDirection="row"
-            gap="0"
-            style={{
-              position: 'relative',
-            }}
-          >
-            <Avatar src={player.photoURL} awaiting={!player.ready} />
-            <Emoji awaiting={!player.ready} />
-          </Box>
+          <Avatar src={player.photoURL} awaiting={!player.ready} />
         ))}
       </Box>
     </Container>
@@ -219,15 +217,8 @@ const Avatar = styled.img<AwaiginProps>`
   transition: all 0.2s ease-in-out;
 
   filter: ${({ awaiting }) =>
-    awaiting ? 'grayscale(100%)' : 'grayscale(0%)'};
-`;
+    awaiting ? 'grayscale(70%)' : 'grayscale(0%)'};
 
-const Emoji = styled.span<AwaiginProps>`
-  &::before {
-    content: ${({ awaiting }) => (awaiting ? '"⛔"' : '"✅"')};
-    position: absolute;
-    top: 0;
-    left: 0;
-    font-size: 0.8rem;
-  }
+  box-shadow: ${({ awaiting }) =>
+    awaiting ? '0 0 12px 2px red' : '0 0 12px 2px green'};
 `;

@@ -15,6 +15,8 @@ export function Router() {
         <Route path="/:id/lobby" element={<Lobby />} />
         <Route path="/:id/versus" element={<Versus />} />
         <Route path="/:id/result" element={<Result />} />
+
+        <Route path="*" element={<Home />} />
       </Routes>
     </BrowserRouter>
   );

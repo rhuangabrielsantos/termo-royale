@@ -216,7 +216,7 @@ export function Board({
           >
             <Avatar src={player.photoURL} />
             <Text fontSize="1.5rem" fontWeight="bold">
-              {player.name}
+              {player.name.split(' ')[0].toUpperCase()}
             </Text>
           </Box>
 
