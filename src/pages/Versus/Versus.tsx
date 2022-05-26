@@ -60,6 +60,8 @@ export function Versus() {
       );
     });
 
+    let hasWinner = false;
+
     setTimeout(() => {
       if (gameWinner.length > 0) {
         gameService.updateGame(id || '', {
@@ -74,9 +76,15 @@ export function Versus() {
             letters: [],
           },
         });
+
+        hasWinner = true;
         return;
       }
     }, 4000);
+
+    if (hasWinner) {
+      return;
+    }
 
     const firstPlayerLose = game.players[0].letters.filter(
       (letters) => {
