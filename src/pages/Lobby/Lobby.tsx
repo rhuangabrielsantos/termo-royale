@@ -71,6 +71,7 @@ export function Lobby() {
       name: user?.name || '',
       photoURL: user?.photoURL || '',
       letters: WordsService.makeInitialWordsState(),
+      ready: true,
     });
   };
 
@@ -78,7 +79,14 @@ export function Lobby() {
     const gameRef = database.ref(`games/${id}`);
 
     gameRef.on('value', (snapshot) => {
-      setGame(snapshot.val());
+      const game = snapshot.val();
+
+      if (!game.adminId) {
+        history('/');
+        return;
+      }
+
+      setGame(game);
 
       if (snapshot.val().status === 'playing') {
         history(`/${id}/versus`);
@@ -92,7 +100,12 @@ export function Lobby() {
 
   return !game ? (
     <Container>
-      <Lottie options={defaultOptions} height={300} width={300} />
+      <Lottie
+        options={defaultOptions}
+        height={300}
+        width={300}
+        isClickToPauseDisabled
+      />
     </Container>
   ) : (
     <Container>

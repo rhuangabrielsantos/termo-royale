@@ -5,4 +5,5 @@ export interface IPlayer {
   name: string;
   photoURL: string;
   letters: ILetter[][];
+  ready: boolean;
 }

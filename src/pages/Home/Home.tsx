@@ -36,6 +36,7 @@ export function Home() {
           name: user?.name || '',
           photoURL: user?.photoURL || '',
           letters: WordsService.makeInitialWordsState(),
+          ready: true,
         },
       ],
       adminId: user?.id || '',

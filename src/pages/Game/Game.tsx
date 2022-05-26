@@ -101,7 +101,12 @@ export function Game() {
         isOpen={isWinnerModalOpen}
         onClose={() => setIsWinnerModalOpen(false)}
       >
-        <Lottie options={winnerConfigs} height={200} width={200} />
+        <Lottie
+          options={winnerConfigs}
+          height={200}
+          width={200}
+          isClickToPauseDisabled
+        />
         <Text>Parabéns, você acertou o TERMO!</Text>
 
         <Button
@@ -117,7 +122,12 @@ export function Game() {
         isOpen={isLoserModalOpen}
         onClose={() => setIsLoserModalOpen(false)}
       >
-        <Lottie options={loserConfigs} height={200} width={200} />
+        <Lottie
+          options={loserConfigs}
+          height={200}
+          width={200}
+          isClickToPauseDisabled
+        />
         <Text>
           Que pena, você não acertou. O termo era <b>{correctWord}</b>
           !

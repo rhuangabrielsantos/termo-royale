@@ -72,6 +72,7 @@ export function Versus() {
             name: user?.name || '',
             photoURL: user?.photoURL || '',
             letters: [],
+            ready: true,
           },
         });
 
@@ -99,6 +100,7 @@ export function Versus() {
           correctWord: game?.correctWord || '',
           players: newPlayers,
           status: 'finished',
+          winner: undefined,
         });
       }
     }, 4000);
@@ -109,6 +111,11 @@ export function Versus() {
 
     gameRef.on('value', (snapshot) => {
       const game = snapshot.val();
+
+      if (!game.adminId) {
+        history('/');
+        return;
+      }
 
       setGame(game);
       setFirstPlayerWords(game.players[0].letters);
@@ -130,9 +137,35 @@ export function Versus() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (!game) {
+      return;
+    }
+
+    const playersReadyFalse = game?.players.map((player) => {
+      return {
+        ...player,
+        ready: false,
+      };
+    });
+
+    const gameService = new GameService();
+    gameService.updateGame(id || '', {
+      adminId: game?.adminId || '',
+      correctWord: game?.correctWord || '',
+      players: playersReadyFalse || [],
+      status: game?.status || '',
+    });
+  }, [game, id]);
+
   return !game || !user ? (
     <Container>
-      <Lottie options={defaultOptions} height={300} width={300} />
+      <Lottie
+        options={defaultOptions}
+        height={300}
+        width={300}
+        isClickToPauseDisabled
+      />
     </Container>
   ) : (
     <Container>
