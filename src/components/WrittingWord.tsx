@@ -17,6 +17,7 @@ interface WrittingWordProps {
   setError: (error: boolean) => void;
 
   name?: string;
+  isMyBoard?: boolean;
 }
 
 export function WrittingWord({
@@ -24,6 +25,7 @@ export function WrittingWord({
   error,
   setError,
   name,
+  isMyBoard,
 }: WrittingWordProps) {
   const [letters, setLetters] = useState<ILetter[]>([
     { text: '', color: 'transparent', flip: false },
@@ -33,7 +35,7 @@ export function WrittingWord({
     { text: '', color: 'transparent', flip: false },
   ]);
   const [isWritting, setIsWritting] = useState<boolean[]>([
-    true,
+    false,
     false,
     false,
     false,
@@ -87,7 +89,7 @@ export function WrittingWord({
     const { key } = event;
     setEventKey('');
 
-    if (boxRef.current) {
+    if (boxRef.current && isMyBoard) {
       boxRef.current.focus();
     }
 
@@ -177,67 +179,70 @@ export function WrittingWord({
   }, [eventKey]);
 
   useEffect(() => {
-    if (boxRef.current) {
+    if (boxRef.current && isMyBoard) {
+      setIsWritting([true, false, false, false, false]);
       boxRef.current.focus();
     }
-  }, []);
+  }, [isMyBoard]);
 
   return (
     <Box
       flexDirection="row"
       gap="0.125em"
       onKeyDown={(event) => {
-        handleOnKeyDown(event);
-        registerEvent('real_keyboard_click');
+        if (isMyBoard) {
+          handleOnKeyDown(event);
+          registerEvent('real_keyboard_click');
+        }
       }}
       tabIndex={0}
       ref={boxRef}
       animationError={error}
     >
       <Letter
-        color={letters[0]?.color}
+        color={isMyBoard ? letters[0]?.color : 'unvailable'}
         isWritting={isWritting[0]}
         onClick={() => updateFocus(0)}
         animate={letters[0].text !== ''}
         className={name}
       >
-        {letters[0]?.text}
+        {isMyBoard ? letters[0]?.text : ' '}
       </Letter>
       <Letter
-        color={letters[1]?.color}
+        color={isMyBoard ? letters[1]?.color : 'unvailable'}
         isWritting={isWritting[1]}
         onClick={() => updateFocus(1)}
         animate={letters[1].text !== ''}
         className={name}
       >
-        {letters[1]?.text}
+        {isMyBoard ? letters[1]?.text : ' '}
       </Letter>
       <Letter
-        color={letters[2]?.color}
+        color={isMyBoard ? letters[2]?.color : 'unvailable'}
         isWritting={isWritting[2]}
         onClick={() => updateFocus(2)}
         animate={letters[2].text !== ''}
         className={name}
       >
-        {letters[2]?.text}
+        {isMyBoard ? letters[2]?.text : ' '}
       </Letter>
       <Letter
-        color={letters[3]?.color}
+        color={isMyBoard ? letters[3]?.color : 'unvailable'}
         isWritting={isWritting[3]}
         onClick={() => updateFocus(3)}
         animate={letters[3].text !== ''}
         className={name}
       >
-        {letters[3]?.text}
+        {isMyBoard ? letters[3]?.text : ' '}
       </Letter>
       <Letter
-        color={letters[4]?.color}
+        color={isMyBoard ? letters[4]?.color : 'unvailable'}
         isWritting={isWritting[4]}
         onClick={() => updateFocus(4)}
         animate={letters[4].text !== ''}
         className={name}
       >
-        {letters[4]?.text}
+        {isMyBoard ? letters[4]?.text : ' '}
       </Letter>
     </Box>
   );

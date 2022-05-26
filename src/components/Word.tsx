@@ -12,6 +12,7 @@ interface WordProps {
   setError: (error: boolean) => void;
 
   name?: string;
+  isMyBoard?: boolean;
 }
 
 export function Word({
@@ -21,6 +22,7 @@ export function Word({
   error,
   setError,
   name,
+  isMyBoard,
 }: WordProps) {
   return isWritting ? (
     <WrittingWord
@@ -28,17 +30,24 @@ export function Word({
       error={error}
       setError={setError}
       name={name}
+      isMyBoard={isMyBoard}
     />
   ) : (
     <Container>
       {letters?.map((letter, index) => (
         <Letter
           key={index}
-          color={letter.color}
+          color={
+            !isMyBoard && letter.color !== 'transparent'
+              ? letter.color
+              : !isMyBoard && letter.color === 'transparent'
+              ? 'opponent'
+              : letter.color
+          }
           className={name}
           fliped={letter.flip}
         >
-          {letter.text}
+          {isMyBoard ? letter.text : ' '}
         </Letter>
       ))}
     </Container>

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { KeyboardContext } from '../context/KeyboardContext';
 import { ILetter } from '../interfaces';
 import { keyboardService } from '../service/KeyboardService';
@@ -10,11 +10,20 @@ interface BoardProps {
   correctWord: string;
   words: ILetter[][];
   setWords: (words: ILetter[][]) => void;
+
+  isMyBoard?: boolean;
+  playerInfo?: string;
 }
 
-export function Board({ correctWord, words, setWords }: BoardProps) {
+export function Board({
+  correctWord,
+  words,
+  setWords,
+  isMyBoard,
+  playerInfo,
+}: BoardProps) {
   const [wordControl, setWorldControl] = useState<boolean[]>([
-    true,
+    false,
     false,
     false,
     false,
@@ -129,7 +138,7 @@ export function Board({ correctWord, words, setWords }: BoardProps) {
   const [animateLetterId, setAnimateLetterId] = useState<number>(0);
 
   const flipLetters = async (index: number) => {
-    const queryId = getQueryId(index);
+    const queryId = getQueryId(index) + playerInfo;
     const letters = document.querySelectorAll(`.${queryId}`);
 
     setTimeout(() => {
@@ -164,6 +173,26 @@ export function Board({ correctWord, words, setWords }: BoardProps) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   };
 
+  useEffect(() => {
+    if (isMyBoard) {
+      const firstWordControl = [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+      ];
+      const firstAllTransparent = words.findIndex((word) =>
+        word.every((letter) => letter.color === 'transparent')
+      );
+
+      firstWordControl[firstAllTransparent] = true;
+      setWorldControl(firstWordControl);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <AlertMessage
@@ -177,7 +206,8 @@ export function Board({ correctWord, words, setWords }: BoardProps) {
         checkWord={checkWord}
         error={error}
         setError={setError}
-        name="first"
+        name={`first${playerInfo}`}
+        isMyBoard={isMyBoard}
       />
       <Word
         isWritting={wordControl[1]}
@@ -185,7 +215,8 @@ export function Board({ correctWord, words, setWords }: BoardProps) {
         letters={words[1] ?? []}
         error={error}
         setError={setError}
-        name="second"
+        name={`second${playerInfo}`}
+        isMyBoard={isMyBoard}
       />
       <Word
         isWritting={wordControl[2]}
@@ -193,7 +224,8 @@ export function Board({ correctWord, words, setWords }: BoardProps) {
         letters={words[2] ?? []}
         error={error}
         setError={setError}
-        name="third"
+        name={`third${playerInfo}`}
+        isMyBoard={isMyBoard}
       />
       <Word
         isWritting={wordControl[3]}
@@ -201,7 +233,8 @@ export function Board({ correctWord, words, setWords }: BoardProps) {
         letters={words[3] ?? []}
         error={error}
         setError={setError}
-        name="fourth"
+        name={`fourth${playerInfo}`}
+        isMyBoard={isMyBoard}
       />
       <Word
         isWritting={wordControl[4]}
@@ -209,7 +242,8 @@ export function Board({ correctWord, words, setWords }: BoardProps) {
         letters={words[4] ?? []}
         error={error}
         setError={setError}
-        name="fifth"
+        name={`fifth${playerInfo}`}
+        isMyBoard={isMyBoard}
       />
       <Word
         isWritting={wordControl[5]}
@@ -217,7 +251,8 @@ export function Board({ correctWord, words, setWords }: BoardProps) {
         letters={words[5] ?? []}
         error={error}
         setError={setError}
-        name="sixth"
+        name={`sixth${playerInfo}`}
+        isMyBoard={isMyBoard}
       />
     </>
   );

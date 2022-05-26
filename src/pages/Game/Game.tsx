@@ -88,6 +88,7 @@ export function Game() {
         correctWord={correctWord}
         words={words}
         setWords={setWords}
+        isMyBoard
       />
 
       <Keyboard />

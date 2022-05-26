@@ -18,12 +18,7 @@ type AuthContextProviderType = {
 export type UserProps = {
   id: string;
   name: string;
-};
-
-export type AuthUserProps = {
-  displayName: string;
   photoURL: string;
-  uid: string;
 };
 
 export function AuthContextProvider({
@@ -34,26 +29,16 @@ export function AuthContextProvider({
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user: any) => {
       if (user) {
-        const { displayName, uid } = user;
+        const { displayName, uid, photoURL } = user;
 
-        if (!displayName) {
+        if (!displayName || !photoURL) {
           throw new Error('Missing information from Google Account.');
         }
 
-        const userRef = database.ref(`users/${uid}`);
-
-        userRef.on('value', (user: any) => {
-          const userInformation = user.val();
-
-          if (!userInformation) {
-            setUser({
-              id: uid,
-              name: displayName,
-            });
-            return;
-          }
-
-          setUser(userInformation);
+        setUser({
+          id: uid,
+          name: displayName,
+          photoURL: photoURL,
         });
       }
     });
@@ -69,30 +54,19 @@ export function AuthContextProvider({
     const result = await auth.signInWithPopup(provider);
 
     if (result.user) {
-      const { displayName, uid } = result.user;
+      const { displayName, uid, photoURL } = result.user;
 
       if (!displayName) {
         throw new Error('Missing information from Google Account.');
       }
 
-      const userRef = database.ref(`users/${uid}`);
+      const newUser: UserProps = {
+        id: uid || '',
+        name: displayName || '',
+        photoURL: photoURL || '',
+      };
 
-      userRef.on('value', (user: any) => {
-        const userInformation = user.val();
-
-        if (!userInformation) {
-          const newUser: UserProps = {
-            id: uid || '',
-            name: displayName || '',
-          };
-
-          userRef.update(newUser);
-          setUser(newUser);
-          return;
-        }
-
-        setUser(userInformation);
-      });
+      setUser(newUser);
     }
   }
 

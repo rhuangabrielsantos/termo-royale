@@ -12,7 +12,8 @@ export type ColorOptions =
   | 'correctPlace'
   | 'incorrectPlace'
   | 'nonExisting'
-  | 'unvailable';
+  | 'unvailable'
+  | 'opponent';
 
 export const Letter = styled.div<LetterProps>`
   font-weight: 600;
@@ -22,6 +23,8 @@ export const Letter = styled.div<LetterProps>`
   background-color: ${(props) =>
     props.color === 'unvailable'
       ? props.theme.colors.letter.unvailable
+      : props.color === 'opponent'
+      ? props.theme.colors.keyboard.available
       : props.fliped
       ? props.theme.colors.letter[props.color || 'nonExisting']
       : 'transparent'};
