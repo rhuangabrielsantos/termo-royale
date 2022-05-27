@@ -1,4 +1,4 @@
-import { valibleWords } from '../data/valibleWords';
+import { otherValidWords, valibleWords } from '../data/valibleWords';
 import { words } from '../data/words';
 import { ILetter } from '../interfaces';
 
@@ -61,6 +61,10 @@ export class WordsService {
     const valibleWordsWithoutAccents = Object.keys(valibleWords);
 
     if (valibleWordsWithoutAccents.includes(word)) {
+      return true;
+    }
+
+    if (otherValidWords.includes(word)) {
       return true;
     }
 
