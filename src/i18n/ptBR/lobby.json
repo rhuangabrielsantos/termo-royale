@@ -1,0 +1,16 @@
+{
+  "copy": "Link copiado para a área de transferência",
+  "error": {
+    "alone": "Impossível iniciar a partida sozinho",
+    "unLogged": "Você precisa estar logado para entrar na partida",
+    "full": "A partida já está cheia"
+  },
+  "button": {
+    "start": "COMEÇAR A PARTIDA",
+    "join": "ENTRAR NA PARTIDA"
+  },
+  "messages": {
+    "await": "AGUARDE ",
+    "init": " INICIAR A PARTIDA"
+  }
+}

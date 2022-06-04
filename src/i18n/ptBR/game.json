@@ -1,0 +1,8 @@
+{
+  "congrats": "Parabéns, você acertou o TERMO!",
+  "wrong": "Que pena, você não acertou. O termo era ",
+  "button": {
+    "again": "JOGAR NOVAMENTE"
+  },
+  "unacceptableWord": "essa palavra não é aceita"
+}

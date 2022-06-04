@@ -1,0 +1,16 @@
+{
+  "copy": "Link copied to clipboard",
+  "error": {
+    "alone": "Unable to start the game by yourself",
+    "unLogged": "You must be logged in to enter the game",
+    "full": "The match is already full"
+  },
+  "button": {
+    "start": "START THE GAME",
+    "join": "JOIN THE GAME"
+  },
+  "messages": {
+    "await": "AWAIT ",
+    "init": " START THE GAME"
+  }
+}

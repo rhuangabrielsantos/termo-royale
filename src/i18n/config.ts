@@ -11,7 +11,7 @@ export const resources = {
 
 i18n.use(initReactI18next).init({
   lng: 'ptBR',
-  ns: ['home', 'result'],
+  ns: ['home', 'game', 'lobby', 'result'],
   interpolation: {
     escapeValue: false,
   },
