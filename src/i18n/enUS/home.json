@@ -1,0 +1,11 @@
+{
+  "title": "TERMO ROYALE",
+  "description": {
+    "first": "A battle royale for you to challenge your friends and find out who is the fastest at figuring out the term!",
+    "second": "You can play alone offline or play online with up to 4 people!"
+  },
+  "button": {
+    "offline": "PLAY OFFLINE",
+    "online": "PLAY ONLINE"
+  }
+}

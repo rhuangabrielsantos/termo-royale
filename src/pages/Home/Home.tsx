@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 import {
   Button,
@@ -20,6 +21,7 @@ import {
 import { Box } from './HomeStyle';
 
 export function Home() {
+  const { t } = useTranslation();
   const history = useNavigate();
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
@@ -69,13 +71,13 @@ export function Home() {
       <Header home />
 
       <Text fontWeight="bold" fontSize="3rem">
-        TERMO ROYALE
+        {t('home:title')}
       </Text>
 
       <Text fontSize="1rem" margin="0 2rem 3rem 2rem">
-        Um battle royale para você desafiar seus amigos e descobrir
-        quem é o mais rápido a descobrir o termo! <br /> Você pode
-        jogar sozinho offline ou jogar online em até 4 pessoas!
+        {t('home:description.first')}
+        <br />
+        {t('home:description.second')}
       </Text>
 
       <Box gap="1rem">
@@ -83,14 +85,14 @@ export function Home() {
           color={theme.colors.letter.nonExisting}
           onClick={handleCreateOfflineGame}
         >
-          JOGAR OFFLINE
+          {t('home:button.offline')}
         </Button>
 
         <Button
           color={theme.colors.letter.correctPlace}
           onClick={handleCreateOnlineGame}
         >
-          JOGAR ONLINE
+          {t('home:button.online')}
         </Button>
       </Box>
     </Container>
