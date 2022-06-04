@@ -1,3 +1,14 @@
 {
-  "title": "The Lord of the Rings"
+  "error": {
+    "unLogged": "You must be logged in to play online"
+  },
+  "message": {
+    "winner": " won the match!",
+    "loser": "No one could figure out the word, how SHAMEFUL!",
+    "wordIs": "The word was "
+  },
+  "button": {
+    "again": "PLAY AGAIN",
+    "exit": "EXIT"
+  }
 }

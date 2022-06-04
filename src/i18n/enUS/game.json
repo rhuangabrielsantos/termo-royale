@@ -1,0 +1,8 @@
+{
+  "congrats": "Congratulations, you got the wordle right!",
+  "wrong": "Too bad, you didn't get it right. The wordle was ",
+  "button": {
+    "again": "PLAY AGAIN"
+  },
+  "unacceptableWord": "this word is not accepted"
+}
