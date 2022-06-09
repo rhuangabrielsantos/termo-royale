@@ -7,4 +7,5 @@ export interface IGame {
   winner?: IPlayer;
   correctWord: string;
   status: string;
+  createdAt: string;
 }

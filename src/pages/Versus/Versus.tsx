@@ -38,6 +38,7 @@ export function Versus() {
       correctWord: game?.correctWord || '',
       status: game?.status || '',
       players: newPlayers,
+      createdAt: game?.createdAt || new Date().toString(),
     });
 
     setTimeout(() => {
@@ -60,6 +61,7 @@ export function Versus() {
             letters: [],
             ready: true,
           },
+          createdAt: game?.createdAt || new Date().toString(),
         });
 
         return;
@@ -87,6 +89,7 @@ export function Versus() {
           players: newPlayers,
           status: 'finished',
           winner: undefined,
+          createdAt: game?.createdAt || new Date().toString(),
         });
       }
     }, 4000);
@@ -139,6 +142,7 @@ export function Versus() {
       correctWord: game?.correctWord || '',
       players: playersReadyFalse || [],
       status: game?.status || '',
+      createdAt: game?.createdAt || new Date().toString(),
     });
   }, [game, id]);
 

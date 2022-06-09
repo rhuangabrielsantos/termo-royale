@@ -53,6 +53,7 @@ export function Home() {
       adminId: user?.id || '',
       correctWord: WordsService.getRandomWord(),
       status: 'waiting',
+      createdAt: new Date().toString(),
     });
 
     setLoading(false);

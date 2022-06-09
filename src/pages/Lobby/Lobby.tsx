@@ -49,6 +49,7 @@ export function Lobby() {
       adminId: game?.adminId || '',
       players: game?.players || [],
       status: 'playing',
+      createdAt: game?.createdAt || new Date().toString(),
     });
   };
 
