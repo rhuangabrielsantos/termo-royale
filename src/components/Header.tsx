@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { IoMdArrowRoundBack } from 'react-icons/io';
 import { HiHome } from 'react-icons/hi';
@@ -26,10 +26,6 @@ export function Header({ home }: HeaderProps) {
   const handleSignIn = async () => {
     await signInWithGoogle();
   };
-
-  useEffect(() => {
-    console.log(i18next.language);
-  }, []);
 
   return (
     <HeaderContainer>
