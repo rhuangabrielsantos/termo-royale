@@ -74,6 +74,7 @@ export function Result() {
         correctWord: WordsService.getRandomWord(),
         players: newPlayers,
         status: 'playing',
+        createdAt: game?.createdAt || new Date().toString(),
       });
       return;
     }
@@ -83,6 +84,7 @@ export function Result() {
       correctWord: game?.correctWord || '',
       players: newPlayers,
       status: 'waiting',
+      createdAt: game?.createdAt || new Date().toString(),
     });
   };
 
@@ -107,6 +109,7 @@ export function Result() {
       correctWord: game?.correctWord || '',
       players: newPlayers,
       status: 'waiting',
+      createdAt: game?.createdAt || new Date().toString(),
     });
   };
 
