@@ -10,7 +10,7 @@ export const resources = {
 } as const;
 
 i18n.use(initReactI18next).init({
-  lng: 'ptBR',
+  lng: 'enUS',
   ns: ['home', 'game', 'lobby', 'result'],
   interpolation: {
     escapeValue: false,
