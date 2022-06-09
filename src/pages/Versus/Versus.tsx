@@ -39,6 +39,7 @@ export function Versus() {
       status: game?.status || '',
       players: newPlayers,
       createdAt: game?.createdAt || new Date().toString(),
+      language: game?.language || '',
     });
 
     setTimeout(() => {
@@ -62,6 +63,7 @@ export function Versus() {
             ready: true,
           },
           createdAt: game?.createdAt || new Date().toString(),
+          language: game?.language || '',
         });
 
         return;
@@ -90,6 +92,7 @@ export function Versus() {
           status: 'finished',
           winner: undefined,
           createdAt: game?.createdAt || new Date().toString(),
+          language: game?.language || '',
         });
       }
     }, 4000);
@@ -143,6 +146,7 @@ export function Versus() {
       players: playersReadyFalse || [],
       status: game?.status || '',
       createdAt: game?.createdAt || new Date().toString(),
+      language: game?.language || '',
     });
   }, [game, id]);
 

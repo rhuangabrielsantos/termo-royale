@@ -8,4 +8,5 @@ export interface IGame {
   correctWord: string;
   status: string;
   createdAt: string;
+  language: string;
 }

@@ -6,6 +6,7 @@
   },
   "button": {
     "offline": "JOGAR OFFLINE",
-    "online": "JOGAR ONLINE"
+    "online": "JOGAR ONLINE",
+    "login": "FAÇA LOGIN"
   }
 }

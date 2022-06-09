@@ -19,6 +19,7 @@ import {
   registesPageView,
 } from '../../utils/LogUtils';
 import { Box } from './HomeStyle';
+import i18next from 'i18next';
 
 export function Home() {
   const { t } = useTranslation();
@@ -54,6 +55,7 @@ export function Home() {
       correctWord: WordsService.getRandomWord(),
       status: 'waiting',
       createdAt: new Date().toString(),
+      language: i18next.language,
     });
 
     setLoading(false);

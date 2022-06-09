@@ -75,6 +75,7 @@ export function Result() {
         players: newPlayers,
         status: 'playing',
         createdAt: game?.createdAt || new Date().toString(),
+        language: game?.language || '',
       });
       return;
     }
@@ -85,6 +86,7 @@ export function Result() {
       players: newPlayers,
       status: 'waiting',
       createdAt: game?.createdAt || new Date().toString(),
+      language: game?.language || '',
     });
   };
 
@@ -110,6 +112,7 @@ export function Result() {
       players: newPlayers,
       status: 'waiting',
       createdAt: game?.createdAt || new Date().toString(),
+      language: game?.language || '',
     });
   };
 

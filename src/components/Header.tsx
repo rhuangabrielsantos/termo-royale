@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import { IoMdArrowRoundBack } from 'react-icons/io';
 import { HiHome } from 'react-icons/hi';
@@ -10,6 +10,9 @@ import { AuthContext } from '../context/AuthContext';
 import { Button } from './Button';
 import { useNavigate } from 'react-router-dom';
 import { Box } from './Box';
+import { LanguageSwitch } from './LanguageSwitch';
+import i18next from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 interface HeaderProps {
   home?: boolean;
@@ -18,10 +21,15 @@ interface HeaderProps {
 export function Header({ home }: HeaderProps) {
   const { user, signInWithGoogle, signOut } = useContext(AuthContext);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleSignIn = async () => {
     await signInWithGoogle();
   };
+
+  useEffect(() => {
+    console.log(i18next.language);
+  }, []);
 
   return (
     <HeaderContainer>
@@ -77,6 +85,7 @@ export function Header({ home }: HeaderProps) {
             top: '1rem',
           }}
         >
+          <LanguageSwitch checked={i18next.language === 'enUS'} />
           <TextMobileHidden fontWeight="bold">
             {user.name.split(' ')[0].toUpperCase()}
           </TextMobileHidden>
@@ -88,17 +97,20 @@ export function Header({ home }: HeaderProps) {
           />
         </Box>
       ) : (
-        <Button
+        <Box
+          flexDirection="row"
+          gap="1rem"
           style={{
             position: 'fixed',
             right: '1rem',
             top: '1rem',
-            fontSize: '1rem',
           }}
-          onClick={handleSignIn}
         >
-          FAÇA LOGIN
-        </Button>
+          <LanguageSwitch checked={i18next.language === 'enUS'} />
+          <Button onClick={handleSignIn}>
+            {t('home:button.login')}
+          </Button>
+        </Box>
       )}
     </HeaderContainer>
   );
