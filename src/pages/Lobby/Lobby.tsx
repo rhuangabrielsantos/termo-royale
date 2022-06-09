@@ -22,6 +22,9 @@ import { AuthContext } from '../../context/AuthContext';
 import { WordsService } from '../../service/WordsService';
 import i18next from 'i18next';
 
+import brazilFlag from '../../assets/images/brazil.png';
+import usaFlag from '../../assets/images/usa.png';
+
 export function Lobby() {
   const { t } = useTranslation();
   const { user } = useContext(AuthContext);
@@ -134,6 +137,12 @@ export function Lobby() {
           >
             {t('lobby:button.start')}
           </Button>
+
+          {game.language === 'ptBR' ? (
+            <Flag src={brazilFlag} />
+          ) : (
+            <Flag src={usaFlag} />
+          )}
         </Box>
       ) : (
         <Box
@@ -157,6 +166,12 @@ export function Lobby() {
               </Button>
             </>
           )}
+
+          {game.language === 'ptBR' ? (
+            <Flag src={brazilFlag} />
+          ) : (
+            <Flag src={usaFlag} />
+          )}
         </Box>
       )}
     </Container>
@@ -174,4 +189,9 @@ const CopyIcon = styled(MdContentCopy)`
 
   width: 2rem;
   height: 2rem;
+`;
+
+const Flag = styled.img`
+  width: 4.5rem;
+  height: 4.5rem;
 `;
