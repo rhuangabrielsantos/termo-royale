@@ -6,6 +6,7 @@
   },
   "button": {
     "offline": "PLAY OFFLINE",
-    "online": "PLAY ONLINE"
+    "online": "PLAY ONLINE",
+    "login": "SIGN IN"
   }
 }

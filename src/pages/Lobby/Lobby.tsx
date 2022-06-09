@@ -20,6 +20,7 @@ import { GameService } from '../../service/GameService';
 import { theme } from '../../styles/theme';
 import { AuthContext } from '../../context/AuthContext';
 import { WordsService } from '../../service/WordsService';
+import i18next from 'i18next';
 
 export function Lobby() {
   const { t } = useTranslation();
@@ -50,6 +51,7 @@ export function Lobby() {
       players: game?.players || [],
       status: 'playing',
       createdAt: game?.createdAt || new Date().toString(),
+      language: game?.language || '',
     });
   };
 
@@ -82,6 +84,10 @@ export function Lobby() {
       if (!game.adminId) {
         history('/');
         return;
+      }
+
+      if (game.language !== i18next.language) {
+        i18next.changeLanguage(game.language);
       }
 
       setGame(game);
