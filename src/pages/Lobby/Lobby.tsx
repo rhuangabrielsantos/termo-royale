@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { MdContentCopy } from 'react-icons/md';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -19,8 +20,13 @@ import { GameService } from '../../service/GameService';
 import { theme } from '../../styles/theme';
 import { AuthContext } from '../../context/AuthContext';
 import { WordsService } from '../../service/WordsService';
+import i18next from 'i18next';
+
+import brazilFlag from '../../assets/images/brazil.png';
+import usaFlag from '../../assets/images/usa.png';
 
 export function Lobby() {
+  const { t } = useTranslation();
   const { user } = useContext(AuthContext);
   const { id } = useParams();
   const [game, setGame] = useState<IGame>();
@@ -29,7 +35,7 @@ export function Lobby() {
 
   const copyUrlToClipboard = () => {
     navigator.clipboard.writeText(window.location.href);
-    toast.dark('Link copiado para a área de transferência');
+    toast.dark(t('lobby:copy'));
   };
 
   const handlePlayGame = () => {
@@ -38,7 +44,7 @@ export function Lobby() {
     }
 
     if (game?.players.length === 1) {
-      toast.dark('Impossível iniciar a partida sozinho');
+      toast.dark(t('lobby:error.alone'));
       return;
     }
 
@@ -47,17 +53,19 @@ export function Lobby() {
       adminId: game?.adminId || '',
       players: game?.players || [],
       status: 'playing',
+      createdAt: game?.createdAt || new Date().toString(),
+      language: game?.language || '',
     });
   };
 
   const handleEnterGame = async () => {
     if (!user) {
-      toast.dark('Você precisa estar logado para entrar na partida');
+      toast.dark(t('lobby:error.unLogged'));
       return;
     }
 
     if (game?.players.length === 4) {
-      toast.dark('A partida já está cheia');
+      toast.dark(t('lobby:error.full'));
       return;
     }
 
@@ -79,6 +87,10 @@ export function Lobby() {
       if (!game.adminId) {
         history('/');
         return;
+      }
+
+      if (game.language !== i18next.language) {
+        i18next.changeLanguage(game.language);
       }
 
       setGame(game);
@@ -123,8 +135,14 @@ export function Lobby() {
             color={theme.colors.letter.nonExisting}
             onClick={handlePlayGame}
           >
-            COMEÇAR A PARTIDA
+            {t('lobby:button.start')}
           </Button>
+
+          {game.language === 'ptBR' ? (
+            <Flag src={brazilFlag} />
+          ) : (
+            <Flag src={usaFlag} />
+          )}
         </Box>
       ) : (
         <Box
@@ -134,9 +152,9 @@ export function Lobby() {
         >
           {game.players.find((player) => player.id === user?.id) ? (
             <Text fontSize="1.5rem" margin="0 1rem" fontWeight="bold">
-              AGUARDE{' '}
-              {game.players[0].name.split(' ')[0].toUpperCase()}{' '}
-              INICIAR A PARTIDA
+              {t('lobby:message.await')}
+              {game.players[0].name.split(' ')[0].toUpperCase()}
+              {t('lobby:message.init')}
             </Text>
           ) : (
             <>
@@ -144,9 +162,15 @@ export function Lobby() {
                 color={theme.colors.letter.nonExisting}
                 onClick={handleEnterGame}
               >
-                ENTRAR NA PARTIDA
+                {t('lobby:button.join')}
               </Button>
             </>
+          )}
+
+          {game.language === 'ptBR' ? (
+            <Flag src={brazilFlag} />
+          ) : (
+            <Flag src={usaFlag} />
           )}
         </Box>
       )}
@@ -165,4 +189,9 @@ const CopyIcon = styled(MdContentCopy)`
 
   width: 2rem;
   height: 2rem;
+`;
+
+const Flag = styled.img`
+  width: 4.5rem;
+  height: 4.5rem;
 `;

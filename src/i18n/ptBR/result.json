@@ -1,0 +1,14 @@
+{
+  "error": {
+    "unLogged": "Você precisa estar logado para jogar online"
+  },
+  "message": {
+    "winner": " ganhou a partida!",
+    "loser": "Ninguem conseguiu descobrir a palavra, QUE VERGONHAAA!",
+    "wordIs": "A palavra era "
+  },
+  "button": {
+    "again": "JOGAR NOVAMENTE",
+    "exit": "SAIR"
+  }
+}

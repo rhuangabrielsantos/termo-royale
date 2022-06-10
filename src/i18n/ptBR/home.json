@@ -1,0 +1,12 @@
+{
+  "title": "TERMO ROYALE",
+  "description": {
+    "first": "Um battle royale para você desafiar seus amigos e descobrir quem é o mais rápido a descobrir o termo!",
+    "second": "Você pode jogar sozinho offline ou jogar online em até 4 pessoas!"
+  },
+  "button": {
+    "offline": "JOGAR OFFLINE",
+    "online": "JOGAR ONLINE",
+    "login": "FAÇA LOGIN"
+  }
+}

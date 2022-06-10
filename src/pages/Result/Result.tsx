@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Lottie from 'react-lottie';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import animationDataWinner from '../../assets/animations/winner.json';
 import animationDataLoser from '../../assets/animations/loser.json';
@@ -25,6 +26,7 @@ import styled from 'styled-components';
 import { IPlayer } from '../../interfaces/IPlayer';
 
 export function Result() {
+  const { t } = useTranslation();
   const { id } = useParams();
   const [game, setGame] = useState<IGame>();
   const { user } = useContext(AuthContext);
@@ -51,7 +53,7 @@ export function Result() {
 
   const handleReadyGame = async () => {
     if (!user) {
-      toast.dark('Você precisa estar logado para jogar online');
+      toast.dark(t('result:error.unLogged'));
       return;
     }
 
@@ -72,6 +74,8 @@ export function Result() {
         correctWord: WordsService.getRandomWord(),
         players: newPlayers,
         status: 'playing',
+        createdAt: game?.createdAt || new Date().toString(),
+        language: game?.language || '',
       });
       return;
     }
@@ -81,12 +85,14 @@ export function Result() {
       correctWord: game?.correctWord || '',
       players: newPlayers,
       status: 'waiting',
+      createdAt: game?.createdAt || new Date().toString(),
+      language: game?.language || '',
     });
   };
 
   const handlExitGame = async () => {
     if (!user) {
-      toast.dark('Você precisa estar logado para jogar online');
+      toast.dark(t('result:error.unLogged'));
       return;
     }
 
@@ -105,6 +111,8 @@ export function Result() {
       correctWord: game?.correctWord || '',
       players: newPlayers,
       status: 'waiting',
+      createdAt: game?.createdAt || new Date().toString(),
+      language: game?.language || '',
     });
   };
 
@@ -152,9 +160,14 @@ export function Result() {
             width={200}
             isClickToPauseDisabled
           />
-          <Text>{game.winner.name} ganhou a partida!</Text>
+          <Text>
+            {game.winner.name}
+            {t('result:message.winner')}
+          </Text>
           <Text fontWeight="bold">
-            <br />A palavra era {game.correctWord.toUpperCase()}
+            <br />
+            {t('result:message.wordIs')}
+            {game.correctWord.toUpperCase()}
           </Text>
         </>
       ) : (
@@ -165,11 +178,11 @@ export function Result() {
             width={200}
             isClickToPauseDisabled
           />
-          <Text>
-            Ninguem conseguiu descobrir a palavra, QUE VERGONHAAA!{' '}
-          </Text>
+          <Text>{t('result:message.loser')}</Text>
           <Text fontWeight="bold">
-            <br />A palavra era {game.correctWord.toUpperCase()}
+            <br />
+            {t('result:message.wordIs')}
+            {game.correctWord.toUpperCase()}
           </Text>
         </>
       )}
@@ -185,7 +198,7 @@ export function Result() {
             onClick={handleReadyGame}
             style={{ marginRight: '1rem', minWidth: '18rem' }}
           >
-            JOGAR NOVAMENTE
+            {t('result:button.again')}
           </Button>
         ) : (
           <Button
@@ -193,7 +206,7 @@ export function Result() {
             onClick={handlExitGame}
             style={{ marginRight: '1rem', minWidth: '18rem' }}
           >
-            SAIR
+            {t('result:button.exit')}
           </Button>
         )}
 

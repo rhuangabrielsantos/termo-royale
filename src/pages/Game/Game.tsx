@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Lottie from 'react-lottie';
 import { RiRestartLine } from 'react-icons/ri';
+import { useTranslation } from 'react-i18next';
 
 import { Button, Container, Text } from '../../components';
 import { Board } from '../../components/Board';
@@ -22,6 +23,7 @@ import { KeyboardContext } from '../../context/KeyboardContext';
 import { keyboardService } from '../../service/KeyboardService';
 
 export function Game() {
+  const { t } = useTranslation();
   const { words, setWords } = useContext(WordsContext);
   const { setKeys } = useContext(KeyboardContext);
   const [correctWord, setCorrectWord] = useState('');
@@ -88,6 +90,8 @@ export function Game() {
     <Container gap="0.125em">
       <Header />
 
+      {correctWord}
+
       <Board
         correctWord={correctWord}
         words={words}
@@ -107,14 +111,14 @@ export function Game() {
           width={200}
           isClickToPauseDisabled
         />
-        <Text>Parabéns, você acertou o TERMO!</Text>
+        <Text>{t('game:congrats')}</Text>
 
         <Button
           color={theme.colors.letter.correctPlace}
           onClick={() => window.location.reload()}
         >
           <RiRestartLine style={{ marginRight: '0.5rem' }} />
-          JOGAR NOVAMENTE
+          {t('game:button.again')}
         </Button>
       </Modal>
 
@@ -129,8 +133,7 @@ export function Game() {
           isClickToPauseDisabled
         />
         <Text>
-          Que pena, você não acertou. O termo era <b>{correctWord}</b>
-          !
+          {t('game:wrong')} <b>{correctWord}</b>!
         </Text>
 
         <Button
@@ -138,7 +141,7 @@ export function Game() {
           onClick={() => window.location.reload()}
         >
           <RiRestartLine style={{ marginRight: '0.5rem' }} />
-          JOGAR NOVAMENTE
+          {t('game:button.again')}
         </Button>
       </Modal>
     </Container>

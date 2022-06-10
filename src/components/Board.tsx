@@ -9,6 +9,7 @@ import { AlertMessage } from './AlertMessage';
 import { Box } from './Box';
 import { Word } from './Word';
 import { Text } from './Text';
+import { useTranslation } from 'react-i18next';
 
 interface BoardProps {
   correctWord: string;
@@ -29,6 +30,8 @@ export function Board({
   playerInfo,
   player,
 }: BoardProps) {
+  const { t } = useTranslation();
+
   const [wordControl, setWorldControl] = useState<boolean[]>(
     playerInfo && isMyBoard
       ? [true, false, false, false, false, false]
@@ -222,13 +225,13 @@ export function Board({
 
           <AlertMessage
             isVisible={error}
-            message="essa palavra não é aceita"
+            message={t('game:unacceptableWord')}
           />
         </>
       ) : (
         <AlertMessage
           isVisible={error}
-          message="essa palavra não é aceita"
+          message={t('game:unacceptableWord')}
         />
       )}
 
