@@ -24,6 +24,7 @@ import i18next from 'i18next';
 
 import brazilFlag from '../../assets/images/brazil.png';
 import usaFlag from '../../assets/images/usa.png';
+import { LocalStorage } from '../../utils/LocalStorage';
 
 export function Lobby() {
   const { t } = useTranslation();
@@ -91,6 +92,7 @@ export function Lobby() {
 
       if (game.language !== i18next.language) {
         i18next.changeLanguage(game.language);
+        LocalStorage.setLanguage(game.language);
       }
 
       setGame(game);

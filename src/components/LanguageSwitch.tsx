@@ -4,12 +4,13 @@ import styled from 'styled-components';
 
 import brazilFlag from '../assets/images/brazil.png';
 import englishFlag from '../assets/images/usa.png';
+import { LocalStorage } from '../utils/LocalStorage';
 
 export function LanguageSwitch(props: RadixSwitch.SwitchProps) {
   const handleOnClick = () => {
-    i18next.changeLanguage(
-      i18next.language === 'enUS' ? 'ptBR' : 'enUS'
-    );
+    const newLanguage = i18next.language === 'enUS' ? 'ptBR' : 'enUS';
+    i18next.changeLanguage(newLanguage);
+    LocalStorage.setLanguage(newLanguage);
   };
 
   return (
