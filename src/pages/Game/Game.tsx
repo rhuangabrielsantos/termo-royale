@@ -90,8 +90,6 @@ export function Game() {
     <Container gap="0.125em">
       <Header />
 
-      {correctWord}
-
       <Board
         correctWord={correctWord}
         words={words}
