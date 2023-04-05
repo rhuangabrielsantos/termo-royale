@@ -1,9 +1,4 @@
-import {
-  Analytics,
-  getAnalytics,
-  logEvent,
-  setUserProperties,
-} from "firebase/analytics";
+import { Analytics, getAnalytics, logEvent } from "firebase/analytics";
 import firebase from "firebase/compat/app";
 
 import "firebase/compat/auth";
@@ -28,6 +23,5 @@ let analytics: Analytics | undefined;
 
 analytics = getAnalytics(app);
 logEvent(analytics, "notification_received");
-setUserProperties(analytics, { is_logged: false });
 
 export { firebase, auth, database, analytics };

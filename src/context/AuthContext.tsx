@@ -1,12 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 
-import {
-  analytics,
-  auth,
-  database,
-  firebase,
-} from "../service/FirebaseService";
-import { setUserProperties } from "firebase/analytics";
+import { auth, database, firebase } from "../service/FirebaseService";
 
 type AuthContextType = {
   user: UserProps | undefined;
@@ -73,18 +67,12 @@ export function AuthContextProvider({ children }: AuthContextProviderType) {
       };
 
       setUser(newUser);
-
-      if (typeof analytics === "undefined") return;
-      setUserProperties(analytics, { is_logged: true });
     }
   }
 
   async function signOut() {
     await auth.signOut();
     setUser(undefined);
-
-    if (typeof analytics === "undefined") return;
-    setUserProperties(analytics, { is_logged: false });
   }
 
   async function updateUser(user: UserProps) {

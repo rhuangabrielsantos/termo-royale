@@ -11,6 +11,8 @@ import { theme } from "../../styles/theme";
 import { registerEvent, registerPageView } from "../../utils/LogUtils";
 import { Box } from "./HomeStyle";
 import i18next from "i18next";
+import { setUserProperties } from "firebase/analytics";
+import { analytics } from "../../service/FirebaseService";
 
 export function Home() {
   const { t } = useTranslation();
@@ -56,7 +58,10 @@ export function Home() {
 
   useEffect(() => {
     registerPageView("/");
-  }, []);
+
+    if (typeof analytics === "undefined") return;
+    setUserProperties(analytics, { is_logged: !!user?.id });
+  }, [user?.id]);
 
   return loading ? (
     <Loading />
