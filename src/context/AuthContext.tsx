@@ -1,6 +1,12 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect } from "react";
 
-import { auth, database, firebase } from '../service/FirebaseService';
+import {
+  analytics,
+  auth,
+  database,
+  firebase,
+} from "../service/FirebaseService";
+import { setUserProperties } from "firebase/analytics";
 
 type AuthContextType = {
   user: UserProps | undefined;
@@ -21,9 +27,7 @@ export type UserProps = {
   photoURL: string;
 };
 
-export function AuthContextProvider({
-  children,
-}: AuthContextProviderType) {
+export function AuthContextProvider({ children }: AuthContextProviderType) {
   const [user, setUser] = useState<UserProps>();
 
   useEffect(() => {
@@ -32,7 +36,7 @@ export function AuthContextProvider({
         const { displayName, uid, photoURL } = user;
 
         if (!displayName || !photoURL) {
-          throw new Error('Missing information from Google Account.');
+          throw new Error("Missing information from Google Account.");
         }
 
         setUser({
@@ -54,25 +58,33 @@ export function AuthContextProvider({
     const result = await auth.signInWithPopup(provider);
 
     if (result.user) {
+      console.log(result.user);
+
       const { displayName, uid, photoURL } = result.user;
 
       if (!displayName) {
-        throw new Error('Missing information from Google Account.');
+        throw new Error("Missing information from Google Account.");
       }
 
       const newUser: UserProps = {
-        id: uid || '',
-        name: displayName || '',
-        photoURL: photoURL || '',
+        id: uid || "",
+        name: displayName || "",
+        photoURL: photoURL || "",
       };
 
       setUser(newUser);
+
+      if (typeof analytics === "undefined") return;
+      setUserProperties(analytics, { is_logged: true });
     }
   }
 
   async function signOut() {
     await auth.signOut();
     setUser(undefined);
+
+    if (typeof analytics === "undefined") return;
+    setUserProperties(analytics, { is_logged: false });
   }
 
   async function updateUser(user: UserProps) {

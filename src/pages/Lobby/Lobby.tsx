@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { MdContentCopy } from 'react-icons/md';
-import styled from 'styled-components';
-import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { MdContentCopy } from "react-icons/md";
+import styled from "styled-components";
+import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import {
   Box,
@@ -13,18 +13,19 @@ import {
   Header,
   Loading,
   Text,
-} from '../../components';
-import { database } from '../../service/FirebaseService';
-import { IGame } from '../../interfaces/IGame';
-import { GameService } from '../../service/GameService';
-import { theme } from '../../styles/theme';
-import { AuthContext } from '../../context/AuthContext';
-import { WordsService } from '../../service/WordsService';
-import i18next from 'i18next';
+} from "../../components";
+import { database } from "../../service/FirebaseService";
+import { IGame } from "../../interfaces/IGame";
+import { GameService } from "../../service/GameService";
+import { theme } from "../../styles/theme";
+import { AuthContext } from "../../context/AuthContext";
+import { WordsService } from "../../service/WordsService";
+import i18next from "i18next";
 
-import brazilFlag from '../../assets/images/brazil.png';
-import usaFlag from '../../assets/images/usa.png';
-import { LocalStorage } from '../../utils/LocalStorage';
+import brazilFlag from "../../assets/images/brazil.png";
+import usaFlag from "../../assets/images/usa.png";
+import { LocalStorage } from "../../utils/LocalStorage";
+import { registerEvent } from "../../utils/LogUtils";
 
 export function Lobby() {
   const { t } = useTranslation();
@@ -36,44 +37,48 @@ export function Lobby() {
 
   const copyUrlToClipboard = () => {
     navigator.clipboard.writeText(window.location.href);
-    toast.dark(t('lobby:copy'));
+    toast.dark(t("lobby:copy"));
   };
 
   const handlePlayGame = () => {
-    if (!id) {
-      return;
-    }
+    if (!id) return;
+
+    if (!game) return;
 
     if (game?.players.length === 1) {
-      toast.dark(t('lobby:error.alone'));
+      toast.dark(t("lobby:error.alone"));
       return;
     }
 
     gameService.updateGame(id, {
-      correctWord: game?.correctWord || '',
-      adminId: game?.adminId || '',
+      correctWord: game?.correctWord || "",
+      adminId: game?.adminId || "",
       players: game?.players || [],
-      status: 'playing',
+      status: "playing",
       createdAt: game?.createdAt || new Date().toString(),
-      language: game?.language || '',
+      language: game?.language || "",
+    });
+
+    registerEvent("start_online_game", {
+      number_of_players: game.players.length.toString() || "",
     });
   };
 
   const handleEnterGame = async () => {
     if (!user) {
-      toast.dark(t('lobby:error.unLogged'));
+      toast.dark(t("lobby:error.unLogged"));
       return;
     }
 
     if (game?.players.length === 4) {
-      toast.dark(t('lobby:error.full'));
+      toast.dark(t("lobby:error.full"));
       return;
     }
 
-    await gameService.addPlayer(id || '', {
-      id: user?.id || '',
-      name: user?.name || '',
-      photoURL: user?.photoURL || '',
+    await gameService.addPlayer(id || "", {
+      id: user?.id || "",
+      name: user?.name || "",
+      photoURL: user?.photoURL || "",
       letters: WordsService.makeInitialWordsState(),
       ready: true,
     });
@@ -82,11 +87,11 @@ export function Lobby() {
   useEffect(() => {
     const gameRef = database.ref(`games/${id}`);
 
-    gameRef.on('value', (snapshot) => {
+    gameRef.on("value", (snapshot) => {
       const game = snapshot.val();
 
       if (!game.adminId) {
-        history('/');
+        history("/");
         return;
       }
 
@@ -97,7 +102,7 @@ export function Lobby() {
 
       setGame(game);
 
-      if (snapshot.val().status === 'playing') {
+      if (snapshot.val().status === "playing") {
         history(`/${id}/versus`);
       }
     });
@@ -120,13 +125,9 @@ export function Lobby() {
       </Box>
 
       {game.adminId === user?.id ? (
-        <Box
-          flexDirection="row"
-          gap="0.5rem"
-          style={{ marginTop: '1rem' }}
-        >
+        <Box flexDirection="row" gap="0.5rem" style={{ marginTop: "1rem" }}>
           <Button
-            style={{ minWidth: '2rem', padding: '0.7rem' }}
+            style={{ minWidth: "2rem", padding: "0.7rem" }}
             color={theme.colors.letter.correctPlace}
             onClick={copyUrlToClipboard}
           >
@@ -137,26 +138,22 @@ export function Lobby() {
             color={theme.colors.letter.nonExisting}
             onClick={handlePlayGame}
           >
-            {t('lobby:button.start')}
+            {t("lobby:button.start")}
           </Button>
 
-          {game.language === 'ptBR' ? (
+          {game.language === "ptBR" ? (
             <Flag src={brazilFlag} />
           ) : (
             <Flag src={usaFlag} />
           )}
         </Box>
       ) : (
-        <Box
-          flexDirection="row"
-          gap="0.5rem"
-          style={{ marginTop: '1rem' }}
-        >
+        <Box flexDirection="row" gap="0.5rem" style={{ marginTop: "1rem" }}>
           {game.players.find((player) => player.id === user?.id) ? (
             <Text fontSize="1.5rem" margin="0 1rem" fontWeight="bold">
-              {t('lobby:message.await')}
-              {game.players[0].name.split(' ')[0].toUpperCase()}
-              {t('lobby:message.init')}
+              {t("lobby:messages.await")}
+              {game.players[0].name.split(" ")[0].toUpperCase()}
+              {t("lobby:messages.init")}
             </Text>
           ) : (
             <>
@@ -164,12 +161,12 @@ export function Lobby() {
                 color={theme.colors.letter.nonExisting}
                 onClick={handleEnterGame}
               >
-                {t('lobby:button.join')}
+                {t("lobby:button.join")}
               </Button>
             </>
           )}
 
-          {game.language === 'ptBR' ? (
+          {game.language === "ptBR" ? (
             <Flag src={brazilFlag} />
           ) : (
             <Flag src={usaFlag} />

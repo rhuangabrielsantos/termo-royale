@@ -1,15 +1,10 @@
-import React, {
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import { KeyboardContext } from '../context/KeyboardContext';
-import { ILetter } from '../interfaces';
-import { WordsService } from '../service/WordsService';
-import { registerEvent } from '../utils/LogUtils';
-import { Box } from './Box';
-import { Letter } from './Letter';
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { KeyboardContext } from "../context/KeyboardContext";
+import { ILetter } from "../interfaces";
+import { WordsService } from "../service/WordsService";
+import { registerEvent } from "../utils/LogUtils";
+import { Box } from "./Box";
+import { Letter } from "./Letter";
 
 interface WrittingWordProps {
   checkWord: (word: ILetter[]) => void;
@@ -28,11 +23,11 @@ export function WrittingWord({
   isMyBoard,
 }: WrittingWordProps) {
   const [letters, setLetters] = useState<ILetter[]>([
-    { text: '', color: 'transparent', flip: false },
-    { text: '', color: 'transparent', flip: false },
-    { text: '', color: 'transparent', flip: false },
-    { text: '', color: 'transparent', flip: false },
-    { text: '', color: 'transparent', flip: false },
+    { text: "", color: "transparent", flip: false },
+    { text: "", color: "transparent", flip: false },
+    { text: "", color: "transparent", flip: false },
+    { text: "", color: "transparent", flip: false },
+    { text: "", color: "transparent", flip: false },
   ]);
   const [isWritting, setIsWritting] = useState<boolean[]>([
     false,
@@ -48,7 +43,7 @@ export function WrittingWord({
   const updateFocusByEvent = (index: number) => {
     if (index > 4) {
       const firstEmptyLetter = letters.findIndex(
-        (letter) => letter.text === ''
+        (letter) => letter.text === ""
       );
 
       if (firstEmptyLetter !== -1) {
@@ -58,7 +53,7 @@ export function WrittingWord({
       return;
     }
 
-    if (letters[index].text !== '') {
+    if (letters[index].text !== "") {
       updateFocusByEvent(index + 1);
       return;
     }
@@ -87,22 +82,22 @@ export function WrittingWord({
 
   const handleOnKeyDown = (event: any) => {
     const { key } = event;
-    setEventKey('');
+    setEventKey("");
 
     if (boxRef.current && isMyBoard) {
       boxRef.current.focus();
     }
 
-    if (key === 'Backspace') {
+    if (key === "Backspace") {
       setError(false);
       const isWrittingId = isWritting.indexOf(true);
 
-      if (isWrittingId === -1 && letters[4].text !== '') {
+      if (isWrittingId === -1 && letters[4].text !== "") {
         updateFocus(4);
         const newLetters = [...letters];
         newLetters[4] = {
           ...newLetters[4],
-          text: '',
+          text: "",
         };
 
         setLetters(newLetters);
@@ -113,12 +108,12 @@ export function WrittingWord({
         return;
       }
 
-      if (letters[isWrittingId].text === '') {
+      if (letters[isWrittingId].text === "") {
         updateFocus(isWrittingId - 1);
         const newLetters = [...letters];
         newLetters[isWrittingId - 1] = {
           ...newLetters[isWrittingId - 1],
-          text: '',
+          text: "",
         };
 
         setLetters(newLetters);
@@ -128,17 +123,17 @@ export function WrittingWord({
       const newLetters = [...letters];
       newLetters[isWrittingId] = {
         ...newLetters[isWrittingId],
-        text: '',
+        text: "",
       };
 
       setLetters(newLetters);
       return;
     }
 
-    if (key === 'Enter') {
+    if (key === "Enter") {
       const wordInString = letters
         .map((letter) => letter.text.toLowerCase())
-        .join('');
+        .join("");
 
       if (!WordsService.wordIsReal(wordInString)) {
         setError(true);
@@ -163,7 +158,7 @@ export function WrittingWord({
 
   useEffect(() => {
     const allFieldsAreLetters = letters.every(
-      (letter: ILetter) => letter.text !== ''
+      (letter: ILetter) => letter.text !== ""
     );
 
     if (allFieldsAreLetters) {
@@ -173,7 +168,7 @@ export function WrittingWord({
   }, [letters]);
 
   useEffect(() => {
-    registerEvent('virtual_keyboard_click');
+    registerEvent("virtual_keyboard_click", { letter: eventKey });
     handleOnKeyDown({ key: eventKey });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [eventKey]);
@@ -192,7 +187,7 @@ export function WrittingWord({
       onKeyDown={(event) => {
         if (isMyBoard) {
           handleOnKeyDown(event);
-          registerEvent('real_keyboard_click');
+          registerEvent("real_keyboard_click", { letter: event.key });
         }
       }}
       tabIndex={0}
@@ -200,49 +195,49 @@ export function WrittingWord({
       animationError={error}
     >
       <Letter
-        color={isMyBoard ? letters[0]?.color : 'unvailable'}
+        color={isMyBoard ? letters[0]?.color : "unvailable"}
         isWritting={isWritting[0]}
         onClick={() => updateFocus(0)}
-        animate={letters[0].text !== ''}
+        animate={letters[0].text !== ""}
         className={name}
       >
-        {isMyBoard ? letters[0]?.text : ' '}
+        {isMyBoard ? letters[0]?.text : " "}
       </Letter>
       <Letter
-        color={isMyBoard ? letters[1]?.color : 'unvailable'}
+        color={isMyBoard ? letters[1]?.color : "unvailable"}
         isWritting={isWritting[1]}
         onClick={() => updateFocus(1)}
-        animate={letters[1].text !== ''}
+        animate={letters[1].text !== ""}
         className={name}
       >
-        {isMyBoard ? letters[1]?.text : ' '}
+        {isMyBoard ? letters[1]?.text : " "}
       </Letter>
       <Letter
-        color={isMyBoard ? letters[2]?.color : 'unvailable'}
+        color={isMyBoard ? letters[2]?.color : "unvailable"}
         isWritting={isWritting[2]}
         onClick={() => updateFocus(2)}
-        animate={letters[2].text !== ''}
+        animate={letters[2].text !== ""}
         className={name}
       >
-        {isMyBoard ? letters[2]?.text : ' '}
+        {isMyBoard ? letters[2]?.text : " "}
       </Letter>
       <Letter
-        color={isMyBoard ? letters[3]?.color : 'unvailable'}
+        color={isMyBoard ? letters[3]?.color : "unvailable"}
         isWritting={isWritting[3]}
         onClick={() => updateFocus(3)}
-        animate={letters[3].text !== ''}
+        animate={letters[3].text !== ""}
         className={name}
       >
-        {isMyBoard ? letters[3]?.text : ' '}
+        {isMyBoard ? letters[3]?.text : " "}
       </Letter>
       <Letter
-        color={isMyBoard ? letters[4]?.color : 'unvailable'}
+        color={isMyBoard ? letters[4]?.color : "unvailable"}
         isWritting={isWritting[4]}
         onClick={() => updateFocus(4)}
-        animate={letters[4].text !== ''}
+        animate={letters[4].text !== ""}
         className={name}
       >
-        {isMyBoard ? letters[4]?.text : ' '}
+        {isMyBoard ? letters[4]?.text : " "}
       </Letter>
     </Box>
   );

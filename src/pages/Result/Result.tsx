@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
-import Lottie from 'react-lottie';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import React, { useContext, useEffect, useState } from "react";
+import Lottie from "react-lottie";
+import { useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-import animationDataWinner from '../../assets/animations/winner.json';
-import animationDataLoser from '../../assets/animations/loser.json';
+import animationDataWinner from "../../assets/animations/winner.json";
+import animationDataLoser from "../../assets/animations/loser.json";
 
 import {
   Box,
@@ -13,17 +13,17 @@ import {
   Header,
   Loading,
   Text,
-} from '../../components';
-import { IGame } from '../../interfaces/IGame';
-import { database } from '../../service/FirebaseService';
-import { GameService } from '../../service/GameService';
-import { theme } from '../../styles/theme';
-import { AuthContext } from '../../context/AuthContext';
-import { toast } from 'react-toastify';
-import { WordsService } from '../../service/WordsService';
-import { registerEvent } from '../../utils/LogUtils';
-import styled from 'styled-components';
-import { IPlayer } from '../../interfaces/IPlayer';
+} from "../../components";
+import { IGame } from "../../interfaces/IGame";
+import { database } from "../../service/FirebaseService";
+import { GameService } from "../../service/GameService";
+import { theme } from "../../styles/theme";
+import { AuthContext } from "../../context/AuthContext";
+import { toast } from "react-toastify";
+import { WordsService } from "../../service/WordsService";
+import { registerEvent } from "../../utils/LogUtils";
+import styled from "styled-components";
+import { IPlayer } from "../../interfaces/IPlayer";
 
 export function Result() {
   const { t } = useTranslation();
@@ -38,7 +38,7 @@ export function Result() {
     autoplay: true,
     animationData: animationDataWinner,
     rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice',
+      preserveAspectRatio: "xMidYMid slice",
     },
   };
 
@@ -47,13 +47,13 @@ export function Result() {
     autoplay: true,
     animationData: animationDataLoser,
     rendererSettings: {
-      preserveAspectRatio: 'xMidYMid slice',
+      preserveAspectRatio: "xMidYMid slice",
     },
   };
 
   const handleReadyGame = async () => {
     if (!user) {
-      toast.dark(t('result:error.unLogged'));
+      toast.dark(t("result:error.unLogged"));
       return;
     }
 
@@ -69,30 +69,30 @@ export function Result() {
     const gameService = new GameService();
 
     if (newPlayers[0].ready && newPlayers[1].ready) {
-      await gameService.updateGame(id || '', {
-        adminId: game?.adminId || '',
+      await gameService.updateGame(id || "", {
+        adminId: game?.adminId || "",
         correctWord: WordsService.getRandomWord(),
         players: newPlayers,
-        status: 'playing',
+        status: "playing",
         createdAt: game?.createdAt || new Date().toString(),
-        language: game?.language || '',
+        language: game?.language || "",
       });
       return;
     }
 
-    await gameService.updateGame(id || '', {
-      adminId: game?.adminId || '',
-      correctWord: game?.correctWord || '',
+    await gameService.updateGame(id || "", {
+      adminId: game?.adminId || "",
+      correctWord: game?.correctWord || "",
       players: newPlayers,
-      status: 'waiting',
+      status: "waiting",
       createdAt: game?.createdAt || new Date().toString(),
-      language: game?.language || '',
+      language: game?.language || "",
     });
   };
 
   const handlExitGame = async () => {
     if (!user) {
-      toast.dark(t('result:error.unLogged'));
+      toast.dark(t("result:error.unLogged"));
       return;
     }
 
@@ -106,35 +106,33 @@ export function Result() {
     };
 
     const gameService = new GameService();
-    await gameService.updateGame(id || '', {
-      adminId: game?.adminId || '',
-      correctWord: game?.correctWord || '',
+    await gameService.updateGame(id || "", {
+      adminId: game?.adminId || "",
+      correctWord: game?.correctWord || "",
       players: newPlayers,
-      status: 'waiting',
+      status: "waiting",
       createdAt: game?.createdAt || new Date().toString(),
-      language: game?.language || '',
+      language: game?.language || "",
     });
   };
 
   useEffect(() => {
     const gameRef = database.ref(`games/${id}`);
 
-    gameRef.on('value', (snapshot) => {
+    gameRef.on("value", (snapshot) => {
       const game = snapshot.val();
 
       if (!game.adminId) {
-        history('/');
+        history("/");
         return;
       }
 
       setCurrentPlayerId(
-        game.players.findIndex(
-          (player: IPlayer) => player.id === user?.id
-        )
+        game.players.findIndex((player: IPlayer) => player.id === user?.id)
       );
 
-      if (game.status === 'playing') {
-        registerEvent('play_online_again');
+      if (game.status === "playing") {
+        registerEvent("play_online_again");
         history(`/${id}/versus`);
       }
 
@@ -162,11 +160,11 @@ export function Result() {
           />
           <Text>
             {game.winner.name}
-            {t('result:message.winner')}
+            {t("result:message.winner")}
           </Text>
           <Text fontWeight="bold">
             <br />
-            {t('result:message.wordIs')}
+            {t("result:message.wordIs")}
             {game.correctWord.toUpperCase()}
           </Text>
         </>
@@ -178,35 +176,31 @@ export function Result() {
             width={200}
             isClickToPauseDisabled
           />
-          <Text>{t('result:message.loser')}</Text>
+          <Text>{t("result:message.loser")}</Text>
           <Text fontWeight="bold">
             <br />
-            {t('result:message.wordIs')}
+            {t("result:message.wordIs")}
             {game.correctWord.toUpperCase()}
           </Text>
         </>
       )}
 
-      <Box
-        flexDirection="row"
-        gap="1rem"
-        style={{ marginTop: '1rem' }}
-      >
+      <Box flexDirection="row" gap="1rem" style={{ marginTop: "1rem" }}>
         {!game.players[currentPlayerId]?.ready ? (
           <Button
             color={theme.colors.letter.correctPlace}
             onClick={handleReadyGame}
-            style={{ marginRight: '1rem', minWidth: '18rem' }}
+            style={{ marginRight: "1rem", minWidth: "18rem" }}
           >
-            {t('result:button.again')}
+            {t("result:button.again")}
           </Button>
         ) : (
           <Button
             color={theme.colors.letter.nonExisting}
             onClick={handlExitGame}
-            style={{ marginRight: '1rem', minWidth: '18rem' }}
+            style={{ marginRight: "1rem", minWidth: "18rem" }}
           >
-            {t('result:button.exit')}
+            {t("result:button.exit")}
           </Button>
         )}
 
@@ -229,9 +223,8 @@ const Avatar = styled.img<AwaiginProps>`
 
   transition: all 0.2s ease-in-out;
 
-  filter: ${({ awaiting }) =>
-    awaiting ? 'grayscale(70%)' : 'grayscale(0%)'};
+  filter: ${({ awaiting }) => (awaiting ? "grayscale(70%)" : "grayscale(0%)")};
 
   box-shadow: ${({ awaiting }) =>
-    awaiting ? '0 0 12px 2px red' : '0 0 12px 2px green'};
+    awaiting ? "0 0 12px 2px red" : "0 0 12px 2px green"};
 `;

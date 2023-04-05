@@ -2,11 +2,12 @@ import {
   Analytics,
   getAnalytics,
   logEvent,
-} from 'firebase/analytics';
-import firebase from 'firebase/compat/app';
+  setUserProperties,
+} from "firebase/analytics";
+import firebase from "firebase/compat/app";
 
-import 'firebase/compat/auth';
-import 'firebase/compat/database';
+import "firebase/compat/auth";
+import "firebase/compat/database";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -25,9 +26,8 @@ const auth = firebase.auth();
 const database = firebase.database();
 let analytics: Analytics | undefined;
 
-// if (process.env.NODE_ENV === 'production') {
 analytics = getAnalytics(app);
-logEvent(analytics, 'notification_received');
-// }
+logEvent(analytics, "notification_received");
+setUserProperties(analytics, { is_logged: false });
 
 export { firebase, auth, database, analytics };
